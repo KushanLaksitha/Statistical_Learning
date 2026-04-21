@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="si">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2. Linear Regression | STA 3401</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Noto+Sans+Sinhala:wght@400;600;700&family=Fira+Code&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <div class="brand-icon">📊</div>STA 3401
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">🏠 ගෙදර</a></li>
+            <li><a href="01-introduction.html">හැඳිනීම</a></li>
+            <li><a href="02-linear-regression.html" class="active">Linear</a></li>
+            <li><a href="03-nonlinear.html">Nonlinear</a></li>
+            <li><a href="04-regularization.html">Regularization</a></li>
+            <li><a href="05-logistic.html">Logistic</a></li>
+            <li><a href="06-cv-bootstrap.html">CV & Bootstrap</a></li>
+            <li><a href="practice.html">📝 Practice</a></li>
+        </ul>
+        <button class="nav-toggle">☰</button>
+    </nav>
+    <div class="mobile-nav">
+        <a href="index.html">🏠 ගෙදර</a>
+        <a href="01-introduction.html">1. Statistical Learning හැඳිනීම</a>
+        <a href="02-linear-regression.html">2. Linear Regression</a>
+        <a href="03-nonlinear.html">3. Nonlinear Models</a>
+        <a href="04-regularization.html">4. Regularization</a>
+        <a href="05-logistic.html">5. Logistic Regression</a>
+        <a href="06-cv-bootstrap.html">6. CV & Bootstrap</a>
+        <a href="practice.html">📝 Practice Exam</a>
+    </div>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-heading">Topics</div>
+                <a href="index.html" class="sidebar-link"><span class="link-icon">🏠</span>ගෙදර</a>
+                <a href="01-introduction.html" class="sidebar-link"><span class="link-icon">🔭</span>1. හැඳිනීම</a>
+                <a href="02-linear-regression.html" class="sidebar-link active"><span class="link-icon">📈</span>2.
+                    Linear Regression</a>
+                <a href="03-nonlinear.html" class="sidebar-link"><span class="link-icon">〰️</span>3. Nonlinear</a>
+                <a href="04-regularization.html" class="sidebar-link"><span class="link-icon">🔧</span>4.
+                    Regularization</a>
+                <a href="05-logistic.html" class="sidebar-link"><span class="link-icon">🎯</span>5. Logistic</a>
+                <a href="06-cv-bootstrap.html" class="sidebar-link"><span class="link-icon">🔁</span>6. CV &
+                    Bootstrap</a>
+                <a href="practice.html" class="sidebar-link"><span class="link-icon">📝</span>Practice Exam</a>
+            </div>
+            <div class="sidebar-section" style="margin-top:16px;">
+                <div class="sidebar-heading">මෙම page</div>
+                <a href="#simple" class="sidebar-link"><span class="link-icon">•</span>Simple Linear Regression</a>
+                <a href="#ols" class="sidebar-link"><span class="link-icon">•</span>OLS Estimates</a>
+                <a href="#assumptions" class="sidebar-link"><span class="link-icon">•</span>Assumptions</a>
+                <a href="#multiple" class="sidebar-link"><span class="link-icon">•</span>Multiple Regression</a>
+                <a href="#knn" class="sidebar-link"><span class="link-icon">•</span>KNN Regression</a>
+                <a href="#rcode" class="sidebar-link"><span class="link-icon">•</span>R Code</a>
+                <a href="#quiz" class="sidebar-link"><span class="link-icon">•</span>Quiz</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="breadcrumb">
+                <a href="index.html">ගෙදර</a><span class="sep">›</span>
+                <span>Topic 2: Linear Regression</span>
+            </div>
+
+            <div class="hero"
+                style="padding:40px 36px;margin-bottom:32px;background:linear-gradient(135deg,#0d47a1,#1565c0,#1976d2);">
+                <div class="hero-badge">📖 Topic 2 of 6</div>
+                <h1>Linear Regression</h1>
+                <p>Continuous outcome predict කිරීමට ඇති ශ්‍රේෂ්ඨ method. OLS, Assumptions, Multiple Regression, KNN.
+                </p>
+            </div>
+
+            <div class="content">
+
+                <h2 id="simple" data-section="simple">📈 Simple Linear Regression</h2>
+
+                <div class="def-box">
+                    <div class="def-title">නිර්වචනය</div>
+                    Simple Linear Regression: Y සහ X අතර linear සම්බන්ධය model කිරීම. Predictor (X) එකක් පමණි.
+                </div>
+
+                <div class="formula-box">
+                    Ŷ = β̂₀ + β̂₁X<br>
+                    <small style="font-size:0.8rem;color:#555;font-family:sans-serif;">β̂₀ = intercept · β̂₁ =
+                        slope</small>
+                </div>
+
+                <p><strong>Interpretation (Q1(c) exam answer):</strong></p>
+                <ul>
+                    <li><strong>β̂₀ (Intercept):</strong> X = 0 ලෙස X = 0 ලෙස X = 0 ලෙස Y හි estimated value. (e.g.,
+                        Temperature = 0 ෙදී Relative Humidity)</li>
+                    <li><strong>β̂₁ (Slope):</strong> X හි 1 unit increase ෙදී Y හි average change. e.g., "Temperature
+                        1°C increase ෙදී RH -2.5% change"</li>
+                </ul>
+
+                <h2 id="ols" data-section="ols">🔢 OLS Estimates (Ordinary Least Squares)</h2>
+
+                <p>OLS method: Residual Sum of Squares (RSS) minimize කිරීම.</p>
+
+                <div class="formula-box">
+                    RSS = Σ(yᵢ − ŷᵢ)² → Minimize!<br><br>
+                    β̂₁ = Σ(xᵢ − x̄)(yᵢ − ȳ) / Σ(xᵢ − x̄)²<br>
+                    β̂₀ = ȳ − β̂₁x̄
+                </div>
+
+                <div class="note-box">
+                    <strong>📊 Model Evaluation:</strong>
+                    <ul style="margin-top:8px;padding-left:20px;">
+                        <li><strong>R²:</strong> Variance explained (0 to 1). R² = 0.85 → 85% explained.</li>
+                        <li><strong>RSE (Residual Standard Error):</strong> Average residual size.</li>
+                        <li><strong>p-value:</strong> Coefficient significant ද? (p &lt; 0.05 → significant)</li>
+                    </ul>
+                </div>
+
+                <h2 id="assumptions" data-section="assumptions">✅ OLS Assumptions (LINE)</h2>
+
+                <div class="card-grid" style="grid-template-columns:repeat(2,1fr);">
+                    <div class="card" style="padding:18px;">
+                        <h4 style="color:var(--primary);margin-bottom:8px;">L – Linearity</h4>
+                        <p style="font-size:0.87rem;">X සහ Y අතර linear සම්බන්ධය.<br>Check: Residuals vs Fitted plot</p>
+                    </div>
+                    <div class="card" style="padding:18px;">
+                        <h4 style="color:var(--primary);margin-bottom:8px;">I – Independence</h4>
+                        <p style="font-size:0.87rem;">Observations independent.<br>Check: Durbin-Watson test</p>
+                    </div>
+                    <div class="card" style="padding:18px;">
+                        <h4 style="color:var(--primary);margin-bottom:8px;">N – Normality</h4>
+                        <p style="font-size:0.87rem;">Errors normally distributed.<br>Check: Q-Q plot, Shapiro-Wilk</p>
+                    </div>
+                    <div class="card" style="padding:18px;">
+                        <h4 style="color:var(--primary);margin-bottom:8px;">E – Equal Variance</h4>
+                        <p style="font-size:0.87rem;">Homoscedasticity.<br>Check: Residuals vs Fitted – no funnel</p>
+                    </div>
+                </div>
+
+                <h2 id="multiple" data-section="multiple">📊 Multiple Linear Regression</h2>
+
+                <div class="formula-box">
+                    Y = β₀ + β₁X₁ + β₂X₂ + ... + βₚXₚ + ε
+                </div>
+
+                <p>Predictors කිහිපයක් ඇති විට. Each βⱼ = "other predictors constant holding, Xⱼ හි 1 unit change ෙදී Y
+                    change".</p>
+
+                <p><strong>Stepwise Variable Selection:</strong></p>
+                <ul>
+                    <li><strong>Forward:</strong> Predictors gradually add කිරීම. Empty → Full.</li>
+                    <li><strong>Backward:</strong> Full model සිට insignificant predictors remove.</li>
+                    <li>Criterion: AIC, BIC, Adjusted R²</li>
+                </ul>
+
+                <h2 id="knn" data-section="knn">🔵 KNN Regression</h2>
+
+                <div class="compare-grid">
+                    <div class="compare-card">
+                        <h4>Linear Regression</h4>
+                        <ul>
+                            <li>Parametric model</li>
+                            <li>Interpretable</li>
+                            <li>Assumes linearity</li>
+                            <li>Good when linear</li>
+                            <li>Extrapolation possible</li>
+                        </ul>
+                    </div>
+                    <div class="compare-card">
+                        <h4>KNN Regression</h4>
+                        <ul>
+                            <li>Non-parametric</li>
+                            <li>Less interpretable</li>
+                            <li>No functional form</li>
+                            <li>Good for non-linear</li>
+                            <li>Curse of dimensionality</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="note-box">
+                    <strong>⚖️ K selection:</strong> Small k → Low bias, High variance (overfit). Large k → High bias,
+                    Low variance (underfit). Cross-validation ගෙන optimal k select.
+                </div>
+
+                <h2 id="rcode" data-section="rcode">💻 R Code – Q1 Air Quality</h2>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>R – Q1(c): Simple Linear Regression</span>
+                        <div style="display:flex;gap:8px;align-items:center;"><span class="lang-tag">R</span><button
+                                class="code-copy">Copy</button></div>
+                    </div>
+                    <pre><code><span class="r-comment"># Part (a): Load dataset</span>
+df <- <span class="r-func">read.csv</span>(<span class="r-string">"AirQuality.csv"</span>, header = <span class="r-keyword">TRUE</span>)
+<span class="r-func">str</span>(df); <span class="r-func">summary</span>(df)
+
+<span class="r-comment"># Part (b): Visualization</span>
+<span class="r-keyword">library</span>(corrplot)
+nums <- df[, <span class="r-func">sapply</span>(df, is.numeric)]
+<span class="r-func">corrplot</span>(<span class="r-func">cor</span>(nums, use = <span class="r-string">"complete.obs"</span>), method = <span class="r-string">"color"</span>)
+<span class="r-func">pairs</span>(nums[, <span class="r-func">c</span>(<span class="r-string">"RH"</span>,<span class="r-string">"T"</span>,<span class="r-string">"AH"</span>,<span class="r-string">"CO"</span>)], pch = <span class="r-number">16</span>, col = <span class="r-string">"blue"</span>)
+
+<span class="r-comment"># Part (c): Simple Linear Regression RH ~ T</span>
+fit_simple <- <span class="r-func">lm</span>(RH ~ T, data = df)
+<span class="r-func">summary</span>(fit_simple)
+<span class="r-comment"># Regression equation: RH = β̂₀ + β̂₁ × T</span>
+
+<span class="r-comment"># Part (d): Multiple Linear Regression</span>
+fit_mlr <- <span class="r-func">lm</span>(RH ~ ., data = df)
+<span class="r-func">summary</span>(fit_mlr)
+<span class="r-comment"># p-value < 0.05 olan predictors = significant</span>
+
+<span class="r-comment"># Part (e): Stepwise Selection</span>
+fit_step <- <span class="r-func">step</span>(fit_mlr, direction = <span class="r-string">"backward"</span>)
+<span class="r-func">summary</span>(fit_step)</code></pre>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>R – Q1(f): KNN Regression</span>
+                        <div style="display:flex;gap:8px;align-items:center;"><span class="lang-tag">R</span><button
+                                class="code-copy">Copy</button></div>
+                    </div>
+                    <pre><code><span class="r-keyword">library</span>(caret)
+
+<span class="r-comment"># Data prep</span>
+df_clean <- <span class="r-func">na.omit</span>(df)
+X <- df_clean[, !<span class="r-func">names</span>(df_clean) %in% <span class="r-string">"RH"</span>]
+Y <- df_clean$RH
+
+<span class="r-comment"># Train/Test split 70/30</span>
+set.seed(<span class="r-number">42</span>)
+train_idx <- <span class="r-func">createDataPartition</span>(Y, p = <span class="r-number">0.7</span>, list = <span class="r-keyword">FALSE</span>)
+X_train <- X[train_idx, ]; Y_train <- Y[train_idx]
+X_test  <- X[-train_idx, ]; Y_test  <- Y[-train_idx]
+
+<span class="r-comment"># Standardize predictors</span>
+pp <- <span class="r-func">preProcess</span>(X_train, method = <span class="r-func">c</span>(<span class="r-string">"center"</span>,<span class="r-string">"scale"</span>))
+X_train_sc <- <span class="r-func">predict</span>(pp, X_train)
+X_test_sc  <- <span class="r-func">predict</span>(pp, X_test)
+
+<span class="r-comment"># KNN with CV to find optimal k</span>
+ctrl <- <span class="r-func">trainControl</span>(method = <span class="r-string">"cv"</span>, number = <span class="r-number">10</span>)
+knn_model <- <span class="r-func">train</span>(
+  x = X_train_sc, y = Y_train,
+  method = <span class="r-string">"knn"</span>,
+  trControl = ctrl,
+  tuneLength = <span class="r-number">20</span>
+)
+<span class="r-func">print</span>(knn_model$bestTune)
+
+<span class="r-comment"># Test set RMSE</span>
+preds <- <span class="r-func">predict</span>(knn_model, X_test_sc)
+rmse  <- <span class="r-func">sqrt</span>(<span class="r-func">mean</span>((Y_test - preds)^<span class="r-number">2</span>))
+<span class="r-func">cat</span>(<span class="r-string">"KNN Test RMSE:"</span>, rmse)</code></pre>
+                </div>
+
+                <h2 id="quiz" data-section="quiz">🧠 Practice Quiz</h2>
+                <div class="quiz-container" id="quiz2"></div>
+
+            </div>
+
+            <div class="page-nav">
+                <a href="01-introduction.html" class="page-nav-card">
+                    <span class="nav-dir">← පෙර Topic</span>
+                    <span class="nav-title">Statistical Learning හැඳිනීම</span>
+                </a>
+                <a href="03-nonlinear.html" class="page-nav-card next">
+                    <span class="nav-dir">ඊළඟ Topic →</span>
+                    <span class="nav-title">Nonlinear Models</span>
+                </a>
+            </div>
+        </main>
+    </div>
+
+    <footer class="site-footer">STA 3401 Statistical Learning · Rajarata University of Sri Lanka · 2025</footer>
+    <button class="back-top">↑</button>
+    <script src="script.js"></script>
+    <script>
+        new Quiz([
+            {
+                question: "Simple Linear Regression equation Ŷ = β̂₀ + β̂₁X හි β̂₁ interpret කිරීම?",
+                options: ["Y intercept when X=0", "X හි 1 unit increase ෙදී Y හි average change", "Total variance", "R-squared value"],
+                correct: 1,
+                explanation: "β̂₁ (slope) = X 1 unit increase ෙදී Y හි expected/average change, other predictors constant."
+            },
+            {
+                question: "OLS method minimize කරන්නේ?",
+                options: ["Total Sum of Squares", "Residual Sum of Squares (RSS)", "Explained Sum of Squares", "Mean Absolute Error"],
+                correct: 1,
+                explanation: "OLS = Ordinary Least Squares. Minimize RSS = Σ(yᵢ − ŷᵢ)²."
+            },
+            {
+                question: "Linear Regression 'Homoscedasticity' assumption test කිරීමට?",
+                options: ["Q-Q plot", "Shapiro-Wilk test", "Residuals vs Fitted plot (funnel shape check)", "Durbin-Watson test"],
+                correct: 2,
+                explanation: "Homoscedasticity = constant variance. Residuals vs Fitted plot හි funnel shape නැතිනම් OK."
+            },
+            {
+                question: "Multiple Regression Backward Stepwise selection ක්‍රමය?",
+                options: ["Predictors gradually add", "Full model සිට insignificant remove", "Random predictor select", "CV based selection"],
+                correct: 1,
+                explanation: "Backward: All predictors සිට start. Least significant (highest p-value / worst AIC) remove. Stop when all significant."
+            },
+            {
+                question: "KNN Regression k=1 ලෙස set කළ විට?",
+                options: ["High bias, low variance", "Low bias, high variance (overfitting risk)", "Perfect model", "High bias, high variance"],
+                correct: 1,
+                explanation: "k=1 → Nearest single neighbor. Training data perfectly fit → Low bias, High variance (overfitting)."
+            },
+            {
+                question: "R² = 0.85 interpret?",
+                options: ["85% observations correct", "Y variance 85% X explains", "85% error", "Model 85% accurate"],
+                correct: 1,
+                explanation: "R² = 0.85 → Response variable Y හි variability 85% model (X) explains."
+            },
+            {
+                question: "KNN Regression predictors standardize කිරීම ඇයි?",
+                options: ["Speed increase", "Distance calculation fair — scale effect remove", "R² improve", "p-values adjust"],
+                correct: 1,
+                explanation: "KNN Euclidean distance use කරයි. Large scale variable distance dominate කරයි. Standardize → fair comparison."
+            }
+        ], 'quiz2');
+    </script>
+</body>
+
+</html>

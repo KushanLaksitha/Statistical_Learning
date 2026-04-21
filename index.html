@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="si">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STA 3401 – Statistical Learning | ගෙදර</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Noto+Sans+Sinhala:wght@400;600;700&family=Fira+Code&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <div class="brand-icon">📊</div>
+            STA 3401
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html" class="active">🏠 ගෙදර</a></li>
+            <li><a href="01-introduction.html">හැඳිනීම</a></li>
+            <li><a href="02-linear-regression.html">Linear Regression</a></li>
+            <li><a href="03-nonlinear.html">Nonlinear</a></li>
+            <li><a href="04-regularization.html">Regularization</a></li>
+            <li><a href="05-logistic.html">Logistic</a></li>
+            <li><a href="06-cv-bootstrap.html">CV & Bootstrap</a></li>
+            <li><a href="practice.html">📝 Practice</a></li>
+        </ul>
+        <button class="nav-toggle">☰</button>
+    </nav>
+
+    <!-- MOBILE NAV -->
+    <div class="mobile-nav">
+        <a href="index.html">🏠 ගෙදර</a>
+        <a href="01-introduction.html">1. Statistical Learning හැඳිනීම</a>
+        <a href="02-linear-regression.html">2. Linear Regression</a>
+        <a href="03-nonlinear.html">3. Nonlinear Models</a>
+        <a href="04-regularization.html">4. Regularization (Ridge & Lasso)</a>
+        <a href="05-logistic.html">5. Logistic Regression</a>
+        <a href="06-cv-bootstrap.html">6. CV & Bootstrap</a>
+        <a href="practice.html">📝 Practice Exam</a>
+    </div>
+
+    <div class="page-wrapper" style="display:block;">
+        <main style="max-width:1100px;margin:0 auto;padding:40px 24px;">
+
+            <!-- HERO -->
+            <div class="hero fade-in">
+                <div class="hero-badge">🎓 Rajarata University of Sri Lanka · BSc Applied Sciences · Year 3</div>
+                <h1>STA 3401 – Statistical Learning</h1>
+                <p>සම්පූර්ණ විෂය නිර්දේශය සිංහලෙන් ඉගෙන ගන්න. R code, ගණිත සූත්‍ර සහ විභාග ප්‍රශ්න සමඟ.</p>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <div class="num">6</div>
+                        <div class="label">ප්‍රධාන Topic</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="num">50+</div>
+                        <div class="label">R Code Examples</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="num">80+</div>
+                        <div class="label">Practice Questions</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="num">5</div>
+                        <div class="label">Exam Questions</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TOPICS -->
+            <div class="section">
+                <h2 class="section-title">📚 Topics</h2>
+                <p class="section-subtitle">ඕනෑම topic එකක් click කළ විට සම්පූර්ණ content, R code සහ quiz ලැබේ.</p>
+
+                <div class="card-grid">
+                    <a href="01-introduction.html" class="topic-card fade-in"
+                        style="--card-color:#1a237e;--card-bg:#e8eaf6;">
+                        <div class="card-icon">🔭</div>
+                        <h3>1. Statistical Learning හැඳිනීම</h3>
+                        <p>Statistical Learning යනු කුමක්ද? Supervised vs Unsupervised. Bias-Variance Tradeoff.</p>
+                        <div class="card-meta">⏱ 20 min · 10 ප්‍රශ්න</div>
+                    </a>
+
+                    <a href="02-linear-regression.html" class="topic-card fade-in"
+                        style="--card-color:#1565c0;--card-bg:#e3f2fd;">
+                        <div class="card-icon">📈</div>
+                        <h3>2. Linear Regression</h3>
+                        <p>Simple සහ Multiple Linear Regression, OLS, Assumptions, KNN Regression.</p>
+                        <div class="card-meta">⏱ 35 min · 15 ප්‍රශ්න</div>
+                    </a>
+
+                    <a href="03-nonlinear.html" class="topic-card fade-in"
+                        style="--card-color:#00695c;--card-bg:#e0f2f1;">
+                        <div class="card-icon">〰️</div>
+                        <h3>3. Nonlinear Models</h3>
+                        <p>Polynomial Regression, Step Functions, Splines, Local Regression (LOESS), GAMs.</p>
+                        <div class="card-meta">⏱ 30 min · 12 ප්‍රශ්න</div>
+                    </a>
+
+                    <a href="04-regularization.html" class="topic-card fade-in"
+                        style="--card-color:#6a1b9a;--card-bg:#f3e5f5;">
+                        <div class="card-icon">🔧</div>
+                        <h3>4. Regularization (Ridge & Lasso)</h3>
+                        <p>Overfitting ගැළවීමට Ridge, Lasso සහ Elastic Net. Penalty functions.</p>
+                        <div class="card-meta">⏱ 30 min · 12 ප්‍රශ්න</div>
+                    </a>
+
+                    <a href="05-logistic.html" class="topic-card fade-in"
+                        style="--card-color:#b71c1c;--card-bg:#ffebee;">
+                        <div class="card-icon">🎯</div>
+                        <h3>5. Logistic Regression</h3>
+                        <p>Binary Classification, Logistic Function, Odds Ratio, MLE, Multiple Logistic Regression.</p>
+                        <div class="card-meta">⏱ 25 min · 12 ප්‍රශ්න</div>
+                    </a>
+
+                    <a href="06-cv-bootstrap.html" class="topic-card fade-in"
+                        style="--card-color:#e65100;--card-bg:#fff3e0;">
+                        <div class="card-icon">🔁</div>
+                        <h3>6. Cross-Validation & Bootstrap</h3>
+                        <p>k-Fold CV, LOOCV, Bootstrap Resampling, Confidence Intervals.</p>
+                        <div class="card-meta">⏱ 30 min · 15 ප්‍රශ්න</div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- EXAM OVERVIEW -->
+            <div class="section">
+                <h2 class="section-title">📝 Exam Overview (2025)</h2>
+                <div class="card">
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ප්‍රශ්නය</th>
+                                    <th>Topic</th>
+                                    <th>ලකුණු</th>
+                                    <th>ආකාරය</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Q1</strong></td>
+                                    <td>Linear Regression (Air Quality dataset) – R Markdown</td>
+                                    <td>33</td>
+                                    <td>Practical (.Rmd)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Q2</strong></td>
+                                    <td>Ridge/Lasso, Nonlinear models, Decision Trees</td>
+                                    <td>17+15</td>
+                                    <td>Theory</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Q3</strong></td>
+                                    <td>Decision Trees, Ensemble Methods, SVM</td>
+                                    <td>25+12</td>
+                                    <td>Theory</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Q4</strong></td>
+                                    <td>K-means Clustering</td>
+                                    <td>13</td>
+                                    <td>Theory</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Q5</strong></td>
+                                    <td>Bootstrap + Linear Regression – R Markdown</td>
+                                    <td>35</td>
+                                    <td>Practical (.Rmd)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="margin-top:16px;">
+                        <a href="practice.html" class="btn btn-primary">📋 Practice Paper බලන්න →</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QUICK TIPS -->
+            <div class="section">
+                <h2 class="section-title">💡 Exam Tips</h2>
+                <div class="card-grid">
+                    <div class="card fade-in">
+                        <h3 style="color:var(--primary);margin-bottom:8px;">🎯 R Code ලිවීමේ Tips</h3>
+                        <ul style="padding-left:20px;font-size:0.9rem;">
+                            <li><code>lm()</code> — Linear Regression</li>
+                            <li><code>glmnet()</code> — Ridge/Lasso</li>
+                            <li><code>cv.glmnet()</code> — Cross-Validation</li>
+                            <li><code>knn()</code> — KNN</li>
+                            <li>Comments: <code>#</code> sign use කරන්න</li>
+                        </ul>
+                    </div>
+                    <div class="card fade-in">
+                        <h3 style="color:var(--primary);margin-bottom:8px;">📊 Key Formulas</h3>
+                        <ul style="padding-left:20px;font-size:0.9rem;">
+                            <li>MSE = mean((y - ŷ)²)</li>
+                            <li>Ridge: β² penalty</li>
+                            <li>Lasso: |β| penalty</li>
+                            <li>Logistic: P = 1/(1+e^(-z))</li>
+                            <li>Bias² + Variance + ε²</li>
+                        </ul>
+                    </div>
+                    <div class="card fade-in">
+                        <h3 style="color:var(--primary);margin-bottom:8px;">⚠️ Exam Pitfalls</h3>
+                        <ul style="padding-left:20px;font-size:0.9rem;">
+                            <li>R Markdown file නාමකරණය නිවැරදිව</li>
+                            <li>Code output include කරන්න</li>
+                            <li>Interpretation 2-3 sentences</li>
+                            <li>Headings clearly label කරන්න</li>
+                            <li>set.seed() forget කරන්න එපා</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <footer class="site-footer">
+        STA 3401 Statistical Learning · Rajarata University of Sri Lanka · 2025
+    </footer>
+
+    <button class="back-top">↑</button>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

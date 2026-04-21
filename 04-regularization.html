@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="si">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4. Regularization | STA 3401</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Noto+Sans+Sinhala:wght@400;600;700&family=Fira+Code&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <div class="brand-icon">📊</div>STA 3401
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">🏠</a></li>
+            <li><a href="01-introduction.html">හැඳිනීම</a></li>
+            <li><a href="02-linear-regression.html">Linear</a></li>
+            <li><a href="03-nonlinear.html">Nonlinear</a></li>
+            <li><a href="04-regularization.html" class="active">Regularization</a></li>
+            <li><a href="05-logistic.html">Logistic</a></li>
+            <li><a href="06-cv-bootstrap.html">CV & Bootstrap</a></li>
+            <li><a href="practice.html">📝 Practice</a></li>
+        </ul>
+        <button class="nav-toggle">☰</button>
+    </nav>
+    <div class="mobile-nav">
+        <a href="index.html">🏠 ගෙදර</a>
+        <a href="01-introduction.html">1. Introduction</a>
+        <a href="02-linear-regression.html">2. Linear Regression</a>
+        <a href="03-nonlinear.html">3. Nonlinear Models</a>
+        <a href="04-regularization.html">4. Regularization</a>
+        <a href="05-logistic.html">5. Logistic Regression</a>
+        <a href="06-cv-bootstrap.html">6. CV & Bootstrap</a>
+        <a href="practice.html">📝 Practice Exam</a>
+    </div>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-heading">Topics</div>
+                <a href="index.html" class="sidebar-link"><span class="link-icon">🏠</span>ගෙදර</a>
+                <a href="01-introduction.html" class="sidebar-link"><span class="link-icon">🔭</span>1. හැඳිනීම</a>
+                <a href="02-linear-regression.html" class="sidebar-link"><span class="link-icon">📈</span>2. Linear
+                    Regression</a>
+                <a href="03-nonlinear.html" class="sidebar-link"><span class="link-icon">〰️</span>3. Nonlinear</a>
+                <a href="04-regularization.html" class="sidebar-link active"><span class="link-icon">🔧</span>4.
+                    Regularization</a>
+                <a href="05-logistic.html" class="sidebar-link"><span class="link-icon">🎯</span>5. Logistic</a>
+                <a href="06-cv-bootstrap.html" class="sidebar-link"><span class="link-icon">🔁</span>6. CV &
+                    Bootstrap</a>
+                <a href="practice.html" class="sidebar-link"><span class="link-icon">📝</span>Practice Exam</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="breadcrumb">
+                <a href="index.html">ගෙදර</a><span class="sep">›</span><span>Topic 4: Regularization</span>
+            </div>
+
+            <div class="hero"
+                style="padding:40px 36px;margin-bottom:32px;background:linear-gradient(135deg,#4a148c,#6a1b9a,#7b1fa2);">
+                <div class="hero-badge">📖 Topic 4 of 6</div>
+                <h1>Regularization: Ridge & Lasso</h1>
+                <p>Overfitting prevent කිරීමට Penalty terms. Ridge L2, Lasso L1, Elastic Net.</p>
+            </div>
+
+            <div class="content">
+
+                <h2 id="why" data-section="why">❓ Regularization ඇයි?</h2>
+                <p>OLS problems:</p>
+                <ul>
+                    <li><strong>Multicollinearity:</strong> Correlated predictors → Unstable coefficients</li>
+                    <li><strong>Overfitting:</strong> Too many predictors → Poor generalization</li>
+                    <li><strong>p ≈ n or p > n:</strong> More predictors than observations</li>
+                </ul>
+                <div class="def-box">
+                    <div class="def-title">Regularization</div>
+                    Loss function ෙදී penalty term add කිරීම. β coefficients toward zero shrink කරයි. Model complexity
+                    control.
+                </div>
+
+                <h2 id="ridge" data-section="ridge">🔵 Ridge Regression (L2 Penalty)</h2>
+                <div class="formula-box">
+                    Ridge: min[Σ(yᵢ − ŷᵢ)² + λΣβⱼ²]<br>
+                    <small style="font-size:0.8rem;font-family:sans-serif;color:#555;">= RSS + λ × (β squared
+                        sum)</small>
+                </div>
+
+                <ul>
+                    <li>β coefficients <strong>shrink toward zero</strong> නමුත් exactly zero නොවේ</li>
+                    <li>Correlated predictors together shrink → stable</li>
+                    <li>Variable selection <strong>නොකරයි</strong></li>
+                    <li>λ = 0: No penalty = OLS. λ → ∞: β → 0</li>
+                </ul>
+
+                <h2 id="lasso" data-section="lasso">🟠 Lasso Regression (L1 Penalty)</h2>
+                <div class="formula-box">
+                    Lasso: min[Σ(yᵢ − ŷᵢ)² + λΣ|βⱼ|]<br>
+                    <small style="font-size:0.8rem;font-family:sans-serif;color:#555;">= RSS + λ × (β absolute
+                        sum)</small>
+                </div>
+
+                <ul>
+                    <li>Some β coefficients <strong>exactly zero</strong> → Variable selection!</li>
+                    <li>Sparse model → Interpretable</li>
+                    <li>Correlated predictors → Arbitrarily one select</li>
+                    <li>High-dimensional data (p >> n) ideal</li>
+                </ul>
+
+                <div class="highlight-primary">
+                    <strong>📝 Q2(a) Exam Answer: Ridge vs Lasso</strong><br><br>
+                    <strong>Ridge:</strong> L2 penalty (β²). Coefficients shrink toward zero නමුත් never exactly zero.
+                    Multicollinearity handle. Variable selection නොකරයි.<br><br>
+                    <strong>Lasso:</strong> L1 penalty (|β|). Some coefficients exactly zero → Automatic variable
+                    selection. Sparse models produce. Correlated predictors සමඟ unstable.
+                </div>
+
+                <h2 id="elastic" data-section="elastic">🔴 Elastic Net</h2>
+                <div class="formula-box">
+                    min[Σ(yᵢ − ŷᵢ)² + λ(α Σ|βⱼ| + (1−α) Σβⱼ²)]<br>
+                    <small style="font-size:0.8rem;font-family:sans-serif;color:#555;">α=1: Lasso · α=0: Ridge ·
+                        0&lt;α&lt;1: Both</small>
+                </div>
+                <p>Ridge + Lasso combine. Correlated predictors group together select. Tuning: λ (strength) + α (mix).
+                </p>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Method</th>
+                                <th>Penalty</th>
+                                <th>Variable Selection</th>
+                                <th>Correlated Predictors</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Ridge</strong></td>
+                                <td>β²</td>
+                                <td>No (shrinks, not zero)</td>
+                                <td>Good — groups together</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Lasso</strong></td>
+                                <td>|β|</td>
+                                <td>Yes (some exactly zero)</td>
+                                <td>Unstable — picks one</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Elastic Net</strong></td>
+                                <td>Both</td>
+                                <td>Yes + grouping</td>
+                                <td>Best — groups + selects</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h2 id="lambda" data-section="lambda">λ Tuning (Cross-Validation)</h2>
+                <ul>
+                    <li>Large λ: More penalty → Coefficients toward zero (underfitting risk)</li>
+                    <li>Small λ: Less penalty → Many features retained (overfitting risk)</li>
+                    <li><code>cv.glmnet()</code> ගෙන optimal λ select</li>
+                </ul>
+
+                <h2 id="rcode" data-section="rcode">💻 R Code – Q1(g): Lasso</h2>
+
+                <div class="code-block">
+                    <div class="code-header"><span>R – Lasso with Cross-Validation</span>
+                        <div style="display:flex;gap:8px;"><span class="lang-tag">R</span><button
+                                class="code-copy">Copy</button></div>
+                    </div>
+                    <pre><code><span class="r-keyword">library</span>(glmnet)
+
+<span class="r-comment"># Matrix prepare</span>
+df_clean <- <span class="r-func">na.omit</span>(df)
+X <- <span class="r-func">model.matrix</span>(RH ~ ., data = df_clean)[, -<span class="r-number">1</span>]
+y <- df_clean$RH
+
+<span class="r-comment"># Lasso: alpha = 1</span>
+set.seed(<span class="r-number">42</span>)
+lasso_cv <- <span class="r-func">cv.glmnet</span>(X, y, alpha = <span class="r-number">1</span>)
+
+<span class="r-comment"># Optimal lambda</span>
+best_lambda <- lasso_cv$lambda.min
+<span class="r-func">cat</span>(<span class="r-string">"Optimal lambda:"</span>, best_lambda)
+
+<span class="r-comment"># Nonzero coefficients</span>
+lasso_coef <- <span class="r-func">coef</span>(lasso_cv, s = <span class="r-string">"lambda.min"</span>)
+<span class="r-func">print</span>(lasso_coef)
+
+<span class="r-comment"># Ridge: alpha = 0</span>
+ridge_cv <- <span class="r-func">cv.glmnet</span>(X, y, alpha = <span class="r-number">0</span>)
+ridge_preds <- <span class="r-func">predict</span>(ridge_cv, s = <span class="r-string">"lambda.min"</span>, newx = X)
+ridge_rmse <- <span class="r-func">sqrt</span>(<span class="r-func">mean</span>((y - ridge_preds)^<span class="r-number">2</span>))
+<span class="r-func">cat</span>(<span class="r-string">"Ridge RMSE:"</span>, ridge_rmse)</code></pre>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-header"><span>R – Compare OLS vs Ridge vs Lasso</span>
+                        <div style="display:flex;gap:8px;"><span class="lang-tag">R</span><button
+                                class="code-copy">Copy</button></div>
+                    </div>
+                    <pre><code><span class="r-comment"># Train/Test split</span>
+set.seed(<span class="r-number">42</span>)
+train_idx <- <span class="r-func">sample</span>(<span class="r-number">1</span>:<span class="r-func">nrow</span>(X), <span class="r-number">0.7</span> * <span class="r-func">nrow</span>(X))
+X_train <- X[train_idx, ]; y_train <- y[train_idx]
+X_test  <- X[-train_idx, ]; y_test  <- y[-train_idx]
+
+<span class="r-comment"># Ridge MSE</span>
+ridge_cv <- <span class="r-func">cv.glmnet</span>(X_train, y_train, alpha = <span class="r-number">0</span>)
+ridge_p  <- <span class="r-func">predict</span>(ridge_cv, s = <span class="r-string">"lambda.min"</span>, newx = X_test)
+<span class="r-func">cat</span>(<span class="r-string">"Ridge Test MSE:"</span>, <span class="r-func">mean</span>((y_test - ridge_p)^<span class="r-number">2</span>))
+
+<span class="r-comment"># Lasso MSE</span>
+lasso_cv <- <span class="r-func">cv.glmnet</span>(X_train, y_train, alpha = <span class="r-number">1</span>)
+lasso_p  <- <span class="r-func">predict</span>(lasso_cv, s = <span class="r-string">"lambda.min"</span>, newx = X_test)
+<span class="r-func">cat</span>(<span class="r-string">"Lasso Test MSE:"</span>, <span class="r-func">mean</span>((y_test - lasso_p)^<span class="r-number">2</span>))</code></pre>
+                </div>
+
+                <h2 id="quiz4">🧠 Practice Quiz</h2>
+                <div class="quiz-container" id="quiz4"></div>
+            </div>
+
+            <div class="page-nav">
+                <a href="03-nonlinear.html" class="page-nav-card"><span class="nav-dir">← පෙර</span><span
+                        class="nav-title">Nonlinear Models</span></a>
+                <a href="05-logistic.html" class="page-nav-card next"><span class="nav-dir">ඊළඟ →</span><span
+                        class="nav-title">Logistic Regression</span></a>
+            </div>
+        </main>
+    </div>
+
+    <footer class="site-footer">STA 3401 · Rajarata University of Sri Lanka · 2025</footer>
+    <button class="back-top">↑</button>
+    <script src="script.js"></script>
+    <script>
+        new Quiz([
+            {
+                question: "Ridge Regression L2 penalty effect?",
+                options: ["Coefficients exactly zero", "Coefficients shrink toward zero, never exactly zero", "Variable selection", "No effect on coefficients"],
+                correct: 1,
+                explanation: "Ridge L2 penalty (β²): Coefficients shrink toward zero. Exactly zero නොවේ. Variable selection නොකරයි."
+            },
+            {
+                question: "Lasso Regression ප්‍රධාන advantage?",
+                options: ["Correlated predictors handle", "Exactly zero coefficients → variable selection", "No tuning parameter", "Always better than Ridge"],
+                correct: 1,
+                explanation: "Lasso L1 penalty (|β|): Some coefficients exactly zero → automatic variable/feature selection."
+            },
+            {
+                question: "λ = 0 ෙදී Ridge Regression?",
+                options: ["All coefficients zero", "Equal to OLS (no penalty)", "Maximum shrinkage", "Lasso equivalent"],
+                correct: 1,
+                explanation: "λ = 0 → No penalty term → Ridge = OLS (ordinary least squares)."
+            },
+            {
+                question: "cv.glmnet(X, y, alpha = 1) — alpha=1 mean?",
+                options: ["Ridge Regression", "Lasso Regression", "Elastic Net", "OLS"],
+                correct: 1,
+                explanation: "glmnet: alpha=1 → Lasso (L1). alpha=0 → Ridge (L2). 0 < alpha < 1 → Elastic Net."
+            },
+            {
+                question: "Elastic Net combine කරන්නේ?",
+                options: ["OLS + Ridge", "Ridge (L2) + Lasso (L1)", "Ridge + Stepwise", "Lasso + KNN"],
+                correct: 1,
+                explanation: "Elastic Net: α × Lasso penalty + (1-α) × Ridge penalty. Correlated predictors group select."
+            },
+            {
+                question: "Large λ Lasso ෙදී result?",
+                options: ["Many features retained", "More coefficients → zero (underfitting risk)", "OLS equivalent", "Ridge equivalent"],
+                correct: 1,
+                explanation: "Large λ → Strong penalty → More coefficients shrink/zero. Risk of underfitting."
+            }
+        ], 'quiz4');
+    </script>
+</body>
+
+</html>

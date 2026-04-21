@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="si">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>6. CV & Bootstrap | STA 3401</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Noto+Sans+Sinhala:wght@400;600;700&family=Fira+Code&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <div class="brand-icon">📊</div>STA 3401
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">🏠</a></li>
+            <li><a href="01-introduction.html">හැඳිනීම</a></li>
+            <li><a href="02-linear-regression.html">Linear</a></li>
+            <li><a href="03-nonlinear.html">Nonlinear</a></li>
+            <li><a href="04-regularization.html">Regularization</a></li>
+            <li><a href="05-logistic.html">Logistic</a></li>
+            <li><a href="06-cv-bootstrap.html" class="active">CV & Bootstrap</a></li>
+            <li><a href="practice.html">📝 Practice</a></li>
+        </ul>
+        <button class="nav-toggle">☰</button>
+    </nav>
+    <div class="mobile-nav">
+        <a href="index.html">🏠 ගෙදර</a>
+        <a href="01-introduction.html">1. Introduction</a>
+        <a href="02-linear-regression.html">2. Linear Regression</a>
+        <a href="03-nonlinear.html">3. Nonlinear Models</a>
+        <a href="04-regularization.html">4. Regularization</a>
+        <a href="05-logistic.html">5. Logistic Regression</a>
+        <a href="06-cv-bootstrap.html">6. CV & Bootstrap</a>
+        <a href="practice.html">📝 Practice Exam</a>
+    </div>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-heading">Topics</div>
+                <a href="index.html" class="sidebar-link"><span class="link-icon">🏠</span>ගෙදර</a>
+                <a href="01-introduction.html" class="sidebar-link"><span class="link-icon">🔭</span>1. හැඳිනීම</a>
+                <a href="02-linear-regression.html" class="sidebar-link"><span class="link-icon">📈</span>2. Linear
+                    Regression</a>
+                <a href="03-nonlinear.html" class="sidebar-link"><span class="link-icon">〰️</span>3. Nonlinear</a>
+                <a href="04-regularization.html" class="sidebar-link"><span class="link-icon">🔧</span>4.
+                    Regularization</a>
+                <a href="05-logistic.html" class="sidebar-link"><span class="link-icon">🎯</span>5. Logistic</a>
+                <a href="06-cv-bootstrap.html" class="sidebar-link active"><span class="link-icon">🔁</span>6. CV &
+                    Bootstrap</a>
+                <a href="practice.html" class="sidebar-link"><span class="link-icon">📝</span>Practice Exam</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="breadcrumb">
+                <a href="index.html">ගෙදර</a><span class="sep">›</span><span>Topic 6: CV & Bootstrap</span>
+            </div>
+
+            <div class="hero"
+                style="padding:40px 36px;margin-bottom:32px;background:linear-gradient(135deg,#bf360c,#e64a19,#ff5722);">
+                <div class="hero-badge">📖 Topic 6 of 6</div>
+                <h1>Cross-Validation & Bootstrap</h1>
+                <p>Model evaluation, hyperparameter tuning, uncertainty estimation. Q5 exam fully covers this.</p>
+            </div>
+
+            <div class="content">
+
+                <h2 id="cv" data-section="cv">🔄 Cross-Validation (CV)</h2>
+                <div class="def-box">
+                    <div class="def-title">ඇයි CV?</div>
+                    Test set error estimate කිරීමට. Model selection (polynomial degree, λ, k) සඳහා. Single train/test
+                    split variable — CV more reliable.
+                </div>
+
+                <h3>k-Fold Cross-Validation</h3>
+                <p>Data k equal folds divide. k-1 folds train, 1 fold test. k iterations rotate. Final CV error =
+                    mean(fold errors).</p>
+
+                <div class="formula-box">CV Error = (1/K) Σ MSEₖ</div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Method</th>
+                                <th>Description</th>
+                                <th>Pros</th>
+                                <th>Cons</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>LOOCV</td>
+                                <td>k = n (leave one out)</td>
+                                <td>Unbiased</td>
+                                <td>Computationally slow</td>
+                            </tr>
+                            <tr>
+                                <td>5-Fold CV</td>
+                                <td>k = 5</td>
+                                <td>Balance</td>
+                                <td>Some variance</td>
+                            </tr>
+                            <tr>
+                                <td>10-Fold CV</td>
+                                <td>k = 10</td>
+                                <td>Standard choice</td>
+                                <td>Slightly slower than 5-fold</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-header"><span>R – 10-Fold CV (from rmd.txt)</span>
+                        <div style="display:flex;gap:8px;"><span class="lang-tag">R</span><button
+                                class="code-copy">Copy</button></div>
+                    </div>
+                    <pre><code>set.seed(<span class="r-number">123</span>)
+df <- <span class="r-func">read.csv</span>(<span class="r-string">"./data.set.1.csv"</span>, header = <span class="r-keyword">TRUE</span>)
+n <- <span class="r-func">dim</span>(df)[<span class="r-number">1</span>]
+K <- <span class="r-number">10</span>
+folds <- <span class="r-func">sample</span>(<span class="r-func">rep</span>(<span class="r-number">1</span>:K, length.out = n))
+
+cv_error <- <span class="r-func">function</span>(degree) {
+  mse <- <span class="r-func">numeric</span>(K)
+  <span class="r-keyword">for</span> (k <span class="r-keyword">in</span> <span class="r-number">1</span>:K) {
+    train <- df[folds != k, ]
+    test  <- df[folds == k, ]
+    fit   <- <span class="r-func">lm</span>(y ~ <span class="r-func">poly</span>(x, degree, raw = <span class="r-keyword">TRUE</span>), data = train)
+    pred  <- <span class="r-func">predict</span>(fit, newdata = test)
+    mse[k] <- <span class="r-func">mean</span>((test$y - pred)^<span class="r-number">2</span>)
+  }
+  <span class="r-func">mean</span>(mse)
+}
+
+degrees    <- <span class="r-number">1</span>:<span class="r-number">25</span>
+cv_results <- <span class="r-func">sapply</span>(degrees, cv_error)
+best_degree <- degrees[<span class="r-func">which.min</span>(cv_results)]
+<span class="r-func">cat</span>(<span class="r-string">"Best polynomial degree:"</span>, best_degree)</code></pre>
+                </div>
+
+                <h2 id="bootstrap" data-section="bootstrap">🥾 Bootstrap</h2>
+                <div class="def-box">
+                    <div class="def-title">Bootstrap ගැළවීම</div>
+                    Population distribution නොදැනත්, statistic හි variability estimate කිරීමට. Replace ගෙන resample →
+                    empirical sampling distribution.
+                </div>
+
+                <h3>Bootstrap Ideal ෙදී (Q text source)</h3>
+                <ul>
+                    <li><strong>No closed-form SE:</strong> Median, quantiles, trimmed mean — theoretical SE formula නැත
+                    </li>
+                    <li><strong>Assumption violations:</strong> Normality, homoscedasticity violate — bootstrap only
+                        needs i.i.d.</li>
+                    <li><strong>Small samples:</strong> Asymptotic approximations unreliable</li>
+                    <li><strong>Complex estimators:</strong> ML performance metrics, AUC</li>
+                    <li><strong>Non-parametric CIs:</strong> Skewness/asymmetry reflect</li>
+                </ul>
+
+                <h3>Bootstrap Algorithm</h3>
+                <ol style="padding-left:20px;">
+                    <li>Original sample x (size n) select</li>
+                    <li>B = 2000 times: Sample n observations <strong>with replacement</strong></li>
+                    <li>Each bootstrap sample ෙදී statistic calculate</li>
+                    <li>B statistics distribution = bootstrap distribution</li>
+                    <li>SE, CI ගෙන estimate</li>
+                </ol>
+
+                <div class="formula-box">
+                    Bootstrap SE = sd(bootstrap_statistics)<br>
+                    95% CI = quantile(bootstrap_stats, c(0.025, 0.975))
+                </div>
+
+                <!-- Q5 Full Solution -->
+                <h2 id="q5" data-section="q5">📝 Q5 Complete Solution (Exam)</h2>
+
+                <div class="highlight-primary">
+                    <strong>Q5: Bootstrap + Linear Regression</strong><br>
+                    Generate Y = 3 + 2X + ε, ε ~ N(0,4). Bootstrap 1000 replications. SE and CI for β₁.
+                </div>
+
+                <div class="code-block">
+                    <div class="code-header"><span>R – Q5 Complete Answer (Rmd)</span>
+                        <div style="display:flex;gap:8px;"><span class="lang-tag">R</span><button
+                                class="code-copy">Copy</button></div>
+                    </div>
+                    <pre><code><span class="r-comment"># Q5(a): Generate dataset (100 observations)</span>
+set.seed(<span class="r-number">123</span>)
+n   <- <span class="r-number">100</span>
+X   <- <span class="r-func">runif</span>(n, <span class="r-number">0</span>, <span class="r-number">10</span>)          <span class="r-comment"># Xi ~ Unif(0, 10)</span>
+eps <- <span class="r-func">rnorm</span>(n, <span class="r-number">0</span>, <span class="r-number">2</span>)           <span class="r-comment"># εi ~ N(0, 4) [sd=2]</span>
+Y   <- <span class="r-number">3</span> + <span class="r-number">2</span> * X + eps           <span class="r-comment"># Yi = 3 + 2Xi + εi</span>
+df5 <- <span class="r-func">data.frame</span>(X = X, Y = Y)
+
+<span class="r-comment"># Q5(b): Scatter plot</span>
+<span class="r-func">plot</span>(df5, pch = <span class="r-number">16</span>, col = <span class="r-string">"blue"</span>,
+     main = <span class="r-string">"Y vs X Scatter Plot"</span>,
+     xlab = <span class="r-string">"X"</span>, ylab = <span class="r-string">"Y"</span>)
+<span class="r-func">abline</span>(<span class="r-func">lm</span>(Y ~ X, data = df5), col = <span class="r-string">"red"</span>, lwd = <span class="r-number">2</span>)
+
+<span class="r-comment"># Q5(c): Fit linear regression</span>
+fit5 <- <span class="r-func">lm</span>(Y ~ X, data = df5)
+<span class="r-func">summary</span>(fit5)
+beta0_hat <- <span class="r-func">coef</span>(fit5)[<span class="r-number">1</span>]  <span class="r-comment"># Intercept β̂₀</span>
+beta1_hat <- <span class="r-func">coef</span>(fit5)[<span class="r-number">2</span>]  <span class="r-comment"># Slope β̂₁</span>
+<span class="r-func">cat</span>(<span class="r-string">"β̂₀ ="</span>, beta0_hat, <span class="r-string">"\nβ̂₁ ="</span>, beta1_hat)
+
+<span class="r-comment"># Q5(d): Nonparametric Bootstrap (1000 replications)</span>
+B <- <span class="r-number">1000</span>
+boot_results <- <span class="r-func">data.frame</span>(
+  b       = <span class="r-number">1</span>:B,
+  beta0_b = <span class="r-func">numeric</span>(B),
+  beta1_b = <span class="r-func">numeric</span>(B)
+)
+
+<span class="r-keyword">for</span> (b <span class="r-keyword">in</span> <span class="r-number">1</span>:B) {
+  idx         <- <span class="r-func">sample</span>(<span class="r-number">1</span>:n, size = n, replace = <span class="r-keyword">TRUE</span>)
+  boot_sample <- df5[idx, ]
+  boot_fit    <- <span class="r-func">lm</span>(Y ~ X, data = boot_sample)
+  boot_results$beta0_b[b] <- <span class="r-func">coef</span>(boot_fit)[<span class="r-number">1</span>]
+  boot_results$beta1_b[b] <- <span class="r-func">coef</span>(boot_fit)[<span class="r-number">2</span>]
+}
+
+<span class="r-comment"># Bootstrap SE for β₁</span>
+boot_se_beta1 <- <span class="r-func">sd</span>(boot_results$beta1_b)
+<span class="r-func">cat</span>(<span class="r-string">"Bootstrap SE for β₁:"</span>, boot_se_beta1)
+
+<span class="r-comment"># Q5(e): Bootstrap distribution histogram</span>
+<span class="r-func">hist</span>(boot_results$beta1_b, breaks = <span class="r-number">30</span>, col = <span class="r-string">"skyblue"</span>,
+     main = <span class="r-string">"Bootstrap Distribution of β̂₁"</span>,
+     xlab = <span class="r-string">"Slope (β₁)"</span>)
+<span class="r-func">abline</span>(v = beta1_hat, col = <span class="r-string">"blue"</span>, lwd = <span class="r-number">2</span>)
+
+<span class="r-comment"># Q5(f): 95% Percentile-based CI</span>
+boot_ci_beta1 <- <span class="r-func">quantile</span>(boot_results$beta1_b, <span class="r-func">c</span>(<span class="r-number">0.025</span>, <span class="r-number">0.975</span>))
+<span class="r-func">cat</span>(<span class="r-string">"95% Bootstrap CI for β₁:"</span>, boot_ci_beta1)</code></pre>
+                </div>
+
+                <h2 id="bootstrap-examples" data-section="bootstrap-examples">Bootstrap Examples</h2>
+
+                <div class="code-block">
+                    <div class="code-header"><span>R – Bootstrap Mean & Median (from rmd.txt)</span>
+                        <div style="display:flex;gap:8px;"><span class="lang-tag">R</span><button
+                                class="code-copy">Copy</button></div>
+                    </div>
+                    <pre><code>set.seed(<span class="r-number">123</span>)
+x <- <span class="r-func">rexp</span>(<span class="r-number">50</span>, rate = <span class="r-number">0.5</span>)  <span class="r-comment"># Exponential distribution</span>
+B <- <span class="r-number">2000</span>; n <- <span class="r-func">length</span>(x)
+
+boot_mean <- boot_median <- <span class="r-func">numeric</span>(B)
+
+<span class="r-keyword">for</span> (b <span class="r-keyword">in</span> <span class="r-number">1</span>:B) {
+  idx  <- <span class="r-func">sample</span>(<span class="r-number">1</span>:n, size = n, replace = <span class="r-keyword">TRUE</span>)
+  xb   <- x[idx]
+  boot_mean[b]   <- <span class="r-func">mean</span>(xb)
+  boot_median[b] <- <span class="r-func">median</span>(xb)
+}
+
+<span class="r-comment"># SEs and CIs</span>
+<span class="r-func">data.frame</span>(
+  Statistic = <span class="r-func">c</span>(<span class="r-string">"Mean"</span>, <span class="r-string">"Median"</span>),
+  Estimate  = <span class="r-func">c</span>(<span class="r-func">mean</span>(x), <span class="r-func">median</span>(x)),
+  Boot_SE   = <span class="r-func">c</span>(<span class="r-func">sd</span>(boot_mean), <span class="r-func">sd</span>(boot_median)),
+  CI_Lower  = <span class="r-func">c</span>(<span class="r-func">quantile</span>(boot_mean,  <span class="r-number">0.025</span>),
+                <span class="r-func">quantile</span>(boot_median, <span class="r-number">0.025</span>)),
+  CI_Upper  = <span class="r-func">c</span>(<span class="r-func">quantile</span>(boot_mean,  <span class="r-number">0.975</span>),
+                <span class="r-func">quantile</span>(boot_median, <span class="r-number">0.975</span>))
+)</code></pre>
+                </div>
+
+                <h2 id="quiz6">🧠 Practice Quiz</h2>
+                <div class="quiz-container" id="quiz6"></div>
+            </div>
+
+            <div class="page-nav">
+                <a href="05-logistic.html" class="page-nav-card"><span class="nav-dir">← පෙර</span><span
+                        class="nav-title">Logistic Regression</span></a>
+                <a href="practice.html" class="page-nav-card next"><span class="nav-dir">ඊළඟ →</span><span
+                        class="nav-title">📝 Practice Exam</span></a>
+            </div>
+        </main>
+    </div>
+
+    <footer class="site-footer">STA 3401 · Rajarata University of Sri Lanka · 2025</footer>
+    <button class="back-top">↑</button>
+    <script src="script.js"></script>
+    <script>
+        new Quiz([
+            {
+                question: "10-Fold CV ෙදී data කෙසේ split?",
+                options: ["10% train, 90% test", "Data 10 equal folds. 9 train + 1 test, 10 times rotate", "Random 10 samples", "Train data 10 times use"],
+                correct: 1,
+                explanation: "10-Fold CV: Data 10 folds. Each iteration 9 folds train, 1 fold test. 10 MSE values → mean = CV error."
+            },
+            {
+                question: "Bootstrap 'with replacement' ෙදී?",
+                options: ["Each sample once only use", "Same observation multiple times select possible", "New data generate", "Random split"],
+                correct: 1,
+                explanation: "Bootstrap: replace=TRUE → Same observation select multiple times possible. Original n size maintain."
+            },
+            {
+                question: "Bootstrap ideal ෙදී example?",
+                options: ["Mean of normal distribution", "Median SE — no closed-form formula", "Linear regression slope OLS", "Sample size > 10000"],
+                correct: 1,
+                explanation: "Median, quantiles, trimmed mean — theoretical SE formula complex/unavailable. Bootstrap computational approach."
+            },
+            {
+                question: "Q5: Yi = 3 + 2Xi + εi generate R code?",
+                options: [
+                    "Y <- 3 + 2*X + rnorm(n,0,2)",
+                    "Y <- rnorm(n, 3+2*X, 2)",
+                    "Both A and B correct",
+                    "Y <- 3*X + 2 + rnorm(n)"
+                ],
+                correct: 2,
+                explanation: "Y = 3 + 2X + ε where ε ~ N(0,4) (sd=2). Both methods equivalent: Y <- 3 + 2*X + rnorm(n,0,2)"
+            },
+            {
+                question: "Bootstrap 95% CI compute?",
+                options: ["mean ± 1.96*sd", "quantile(boot_stats, c(0.025, 0.975))", "t.test confidence interval", "Normal approximation"],
+                correct: 1,
+                explanation: "Bootstrap percentile CI: 2.5th and 97.5th percentiles of bootstrap distribution."
+            },
+            {
+                question: "LOOCV (Leave-One-Out CV) disadvantage?",
+                options: ["Biased estimates", "Computationally expensive (n models fit)", "Only 2 folds", "Cannot use for regression"],
+                correct: 1,
+                explanation: "LOOCV: k=n → n models fit. Large n ෙදී computationally expensive. 10-fold more practical."
+            }
+        ], 'quiz6');
+    </script>
+</body>
+
+</html>

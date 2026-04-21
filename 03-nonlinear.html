@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="si">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3. Nonlinear Models | STA 3401</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Noto+Sans+Sinhala:wght@400;600;700&family=Fira+Code&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <div class="brand-icon">📊</div>STA 3401
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">🏠</a></li>
+            <li><a href="01-introduction.html">හැඳිනීම</a></li>
+            <li><a href="02-linear-regression.html">Linear</a></li>
+            <li><a href="03-nonlinear.html" class="active">Nonlinear</a></li>
+            <li><a href="04-regularization.html">Regularization</a></li>
+            <li><a href="05-logistic.html">Logistic</a></li>
+            <li><a href="06-cv-bootstrap.html">CV & Bootstrap</a></li>
+            <li><a href="practice.html">📝 Practice</a></li>
+        </ul>
+        <button class="nav-toggle">☰</button>
+    </nav>
+    <div class="mobile-nav">
+        <a href="index.html">🏠 ගෙදර</a>
+        <a href="01-introduction.html">1. Statistical Learning හැඳිනීම</a>
+        <a href="02-linear-regression.html">2. Linear Regression</a>
+        <a href="03-nonlinear.html">3. Nonlinear Models</a>
+        <a href="04-regularization.html">4. Regularization</a>
+        <a href="05-logistic.html">5. Logistic Regression</a>
+        <a href="06-cv-bootstrap.html">6. CV & Bootstrap</a>
+        <a href="practice.html">📝 Practice Exam</a>
+    </div>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-heading">Topics</div>
+                <a href="index.html" class="sidebar-link"><span class="link-icon">🏠</span>ගෙදර</a>
+                <a href="01-introduction.html" class="sidebar-link"><span class="link-icon">🔭</span>1. හැඳිනීම</a>
+                <a href="02-linear-regression.html" class="sidebar-link"><span class="link-icon">📈</span>2. Linear
+                    Regression</a>
+                <a href="03-nonlinear.html" class="sidebar-link active"><span class="link-icon">〰️</span>3.
+                    Nonlinear</a>
+                <a href="04-regularization.html" class="sidebar-link"><span class="link-icon">🔧</span>4.
+                    Regularization</a>
+                <a href="05-logistic.html" class="sidebar-link"><span class="link-icon">🎯</span>5. Logistic</a>
+                <a href="06-cv-bootstrap.html" class="sidebar-link"><span class="link-icon">🔁</span>6. CV &
+                    Bootstrap</a>
+                <a href="practice.html" class="sidebar-link"><span class="link-icon">📝</span>Practice Exam</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="breadcrumb">
+                <a href="index.html">ගෙදර</a><span class="sep">›</span><span>Topic 3: Nonlinear Models</span>
+            </div>
+
+            <div class="hero"
+                style="padding:40px 36px;margin-bottom:32px;background:linear-gradient(135deg,#004d40,#00695c,#00897b);">
+                <div class="hero-badge">📖 Topic 3 of 6</div>
+                <h1>Nonlinear Models in Regression</h1>
+                <p>Polynomial, Step Functions, Splines, LOESS, GAMs – curves, thresholds, complex shapes.</p>
+            </div>
+
+            <div class="content">
+
+                <h2 id="why" data-section="why">❓ Nonlinear Models ඇයි?</h2>
+                <div class="def-box">
+                    <div class="def-title">ප්‍රශ්නය</div>
+                    Linear Regression straight line assume කරයි. Data හි curves, thresholds, complex shapes ඇතිනම්
+                    Linear model poor fit දෙයි. Nonlinear models realistic patterns capture කරයි.
+                </div>
+                <ul>
+                    <li>Growth of children (height vs. age) — curve</li>
+                    <li>Economic data (income vs. education) — threshold effects</li>
+                    <li>Medical data (drug dosage vs. effect) — nonlinear response</li>
+                </ul>
+
+                <div class="highlight-warning">
+                    <strong>Q2(b) Exam: Linear vs Nonlinear in Parameters</strong><br>
+                    "Linear in parameters" = β coefficients linear ව appear කරයි (X^2 ඇතත් OK).<br><br>
+                    <strong>i. Yᵢ = β₀ + β₁eˣⁱ + εᵢ</strong> → <strong>Nonlinear</strong> — β₁ exponent X සමඟ
+                    nonlinear<br>
+                    <strong>ii. Yᵢ = β₀ + β₁Xᵢ^β₂ + εᵢ</strong> → <strong>Nonlinear</strong> — β₂ power parameter
+                    (parameter in exponent)<br>
+                    <strong>iii. Yᵢ = β₀Xᵢ/(β₁ + Xᵢ) + εᵢ</strong> → <strong>Nonlinear</strong> — β₁ denominator
+                </div>
+
+                <h2 id="approaches" data-section="approaches">🛠️ Approaches (Q2(d) – Two Approaches)</h2>
+                <div class="compare-grid">
+                    <div class="compare-card">
+                        <h4>1. Transform Predictors</h4>
+                        <ul>
+                            <li>Polynomial regression (X, X², X³)</li>
+                            <li>Log/sqrt transformations</li>
+                            <li>Linear framework maintain</li>
+                        </ul>
+                    </div>
+                    <div class="compare-card">
+                        <h4>2. Break Predictor Space</h4>
+                        <ul>
+                            <li>Step functions (intervals)</li>
+                            <li>Splines (piecewise polynomials)</li>
+                            <li>Local regression (LOESS)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h2 id="polynomial" data-section="polynomial">📐 Polynomial Regression</h2>
+                <div class="formula-box">y = β₀ + β₁x + β₂x² + β₃x³ + ··· + βdxd + ε</div>
+                <ul>
+                    <li>Linear in parameters β — OLS estimate කළ හැකිය</li>
+                    <li>Low degree (quadratic): Simple curves</li>
+                    <li>High degree (10th): Overfitting risk!</li>
+                    <li>Degree select: Cross-validation, AIC/BIC</li>
+                </ul>
+
+                <div class="code-block">
+                    <div class="code-header"><span>R – Polynomial Regression</span>
+                        <div style="display:flex;gap:8px;"><span class="lang-tag">R</span><button
+                                class="code-copy">Copy</button></div>
+                    </div>
+                    <pre><code><span class="r-comment"># Degree 3 Polynomial</span>
+fit_poly <- <span class="r-func">lm</span>(y ~ <span class="r-func">poly</span>(x, <span class="r-number">3</span>, raw = <span class="r-keyword">TRUE</span>), data = df)
+<span class="r-func">summary</span>(fit_poly)
+
+<span class="r-comment"># Best degree via CV (from rmd.txt)</span>
+cv_error <- <span class="r-func">function</span>(degree) {
+  mse <- <span class="r-func">numeric</span>(K)
+  <span class="r-keyword">for</span> (k <span class="r-keyword">in</span> <span class="r-number">1</span>:K) {
+    train <- df[folds != k, ]
+    test  <- df[folds == k, ]
+    fit <- <span class="r-func">lm</span>(y ~ <span class="r-func">poly</span>(x, degree, raw = <span class="r-keyword">TRUE</span>), data = train)
+    pred <- <span class="r-func">predict</span>(fit, newdata = test)
+    mse[k] <- <span class="r-func">mean</span>((test$y - pred)^<span class="r-number">2</span>)
+  }
+  <span class="r-func">mean</span>(mse)
+}
+degrees    <- <span class="r-number">1</span>:<span class="r-number">25</span>
+cv_results <- <span class="r-func">sapply</span>(degrees, cv_error)
+best_deg   <- degrees[<span class="r-func">which.min</span>(cv_results)]</code></pre>
+                </div>
+
+                <h2 id="step" data-section="step">🪜 Step Functions</h2>
+                <div class="formula-box">y = β₀ + β₁I(c₁ ≤ x &lt; c₂) + β₂I(c₂ ≤ x &lt; c₃) + ···</div>
+                <ul>
+                    <li>X range intervals (bins) ලෙස divide කිරීම</li>
+                    <li>Each interval constant value</li>
+                    <li><strong>Advantage:</strong> Simple, interpretable. Natural categories ඇතිනම් useful (age groups)
+                    </li>
+                    <li><strong>Limitation:</strong> Discontinuous jumps at cutpoints. Gradual trends miss</li>
+                </ul>
+
+                <h2 id="splines" data-section="splines">🌊 Regression Splines</h2>
+                <p>Predictor range <strong>knots</strong> ලෙස divide → Each segment low-degree polynomial → Smoothly
+                    join.</p>
+                <div class="formula-box">Cubic Regression Splines — piecewise cubic, smooth at knots (up to 2nd
+                    derivative)</div>
+
+                <div class="compare-grid">
+                    <div class="compare-card">
+                        <h4>Regression Splines</h4>
+                        <ul>
+                            <li>Fixed knots</li>
+                            <li>Piecewise polynomials</li>
+                            <li>Smooth at knots</li>
+                            <li>User selects knots</li>
+                        </ul>
+                    </div>
+                    <div class="compare-card">
+                        <h4>Smoothing Splines</h4>
+                        <ul>
+                            <li>Knot at every data point</li>
+                            <li>Penalty λ on curvature</li>
+                            <li>λ → smooth/rough tradeoff</li>
+                            <li>Data-driven</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="formula-box">Smoothing Spline: min Σ(yᵢ − f(xᵢ))² + λ∫[f''(x)]²dx</div>
+
+                <h2 id="loess" data-section="loess">📍 Local Regression (LOESS/LOWESS)</h2>
+                <ul>
+                    <li>One global model fit නොකොට, each point x₀ ලඟ local weighted regression</li>
+                    <li>Nearby points more weight (distance ↑ → weight ↓)</li>
+                    <li><strong>Span parameter:</strong> Proportion of data for each local fit</li>
+                    <li>Small span → more flexible (overfit risk). Large span → smoother (underfit risk)</li>
+                </ul>
+
+                <h2 id="gam" data-section="gam">🔗 Generalized Additive Models (GAMs)</h2>
+                <div class="formula-box">y = β₀ + f₁(x₁) + f₂(x₂) + ··· + fₚ(xₚ) + ε</div>
+                <p>Multiple predictors, each with smooth nonlinear function fⱼ(xⱼ). Additive structure →
+                    interpretability maintain.</p>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Method</th>
+                                <th>Characteristics</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Polynomial</td>
+                                <td>Global curve, risk of oscillation</td>
+                            </tr>
+                            <tr>
+                                <td>Step Functions</td>
+                                <td>Piecewise constant, simple</td>
+                            </tr>
+                            <tr>
+                                <td>Basis Functions</td>
+                                <td>General framework for expansion</td>
+                            </tr>
+                            <tr>
+                                <td>Regression Splines</td>
+                                <td>Piecewise polynomials with knots</td>
+                            </tr>
+                            <tr>
+                                <td>Smoothing Splines</td>
+                                <td>Data-driven smoothness control</td>
+                            </tr>
+                            <tr>
+                                <td>Local Regression</td>
+                                <td>Flexible, local fits</td>
+                            </tr>
+                            <tr>
+                                <td>GAMs</td>
+                                <td>Additive nonlinear models</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h2 id="quiz3">🧠 Practice Quiz</h2>
+                <div class="quiz-container" id="quiz3"></div>
+            </div>
+
+            <div class="page-nav">
+                <a href="02-linear-regression.html" class="page-nav-card"><span class="nav-dir">← පෙර</span><span
+                        class="nav-title">Linear Regression</span></a>
+                <a href="04-regularization.html" class="page-nav-card next"><span class="nav-dir">ඊළඟ →</span><span
+                        class="nav-title">Regularization</span></a>
+            </div>
+        </main>
+    </div>
+
+    <footer class="site-footer">STA 3401 · Rajarata University of Sri Lanka · 2025</footer>
+    <button class="back-top">↑</button>
+    <script src="script.js"></script>
+    <script>
+        new Quiz([
+            {
+                question: "Yᵢ = β₀ + β₁Xᵢ^β₂ + εᵢ — linear or nonlinear in parameters?",
+                options: ["Linear — X powers ඇත", "Nonlinear — β₂ exponent parameter", "Linear — OLS solve", "Cannot determine"],
+                correct: 1,
+                explanation: "β₂ exponent position ෙදී ඇත. Parameters (β) linear combination නොවේ. → Nonlinear in parameters."
+            },
+            {
+                question: "Smoothing Spline penalty λ large ෙදී?",
+                options: ["Wiggly curve", "Smoother curve", "No effect", "Overfitting"],
+                correct: 1,
+                explanation: "Large λ → Curvature heavily penalize → Smoother curve. λ→∞ = straight line. λ=0 = interpolating spline."
+            },
+            {
+                question: "LOESS span parameter small ෙදී?",
+                options: ["Smooth, less flexible", "More flexible, overfit risk", "No change", "Linear fit"],
+                correct: 1,
+                explanation: "Small span → Few data points use per local fit → More flexible → Risk of overfitting."
+            },
+            {
+                question: "Q2(d): Two approaches for nonlinear regression?",
+                options: ["OLS and MLE", "Transform predictors + Break predictor space", "Ridge and Lasso", "Forward and Backward"],
+                correct: 1,
+                explanation: "Approach 1: Modify predictors (polynomials, transformations). Approach 2: Break predictor space (step functions, splines)."
+            },
+            {
+                question: "Cubic Regression Spline knots ෙදී smooth condition?",
+                options: ["Discontinuous jump OK", "1st derivative continuous only", "Smooth up to 2nd derivative at knots", "No smoothness required"],
+                correct: 2,
+                explanation: "Cubic splines: Knot ෙදී function, 1st derivative, 2nd derivative continuous → Smooth joins."
+            },
+            {
+                question: "GAM model Ŷ = β₀ + f₁(x₁) + f₂(x₂) advantage?",
+                options: ["Global polynomial", "Additive structure → interpretability + nonlinear flexibility", "Only linear", "Requires normality"],
+                correct: 1,
+                explanation: "GAMs: Each predictor individual smooth function. Additive → interpretability. Nonlinear → flexibility."
+            }
+        ], 'quiz3');
+    </script>
+</body>
+
+</html>

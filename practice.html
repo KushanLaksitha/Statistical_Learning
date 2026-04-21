@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="si">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practice Exam | STA 3401</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Noto+Sans+Sinhala:wght@400;600;700&family=Fira+Code&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .sub-parts {
+            padding-left: 20px;
+        }
+
+        .sub-parts li {
+            margin-bottom: 10px;
+            font-size: 0.92rem;
+        }
+
+        .model-answer {
+            display: none;
+            margin-top: 16px;
+        }
+
+        .model-answer.show {
+            display: block;
+        }
+
+        .reveal-btn {
+            background: var(--primary-light);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 18px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-family: var(--font-body);
+            margin-top: 12px;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .reveal-btn:hover {
+            background: var(--primary);
+        }
+
+        .reveal-btn.shown {
+            background: var(--success);
+        }
+
+        .mc-options {
+            list-style: none;
+            padding: 0;
+            margin: 12px 0;
+        }
+
+        .mc-options li {
+            margin-bottom: 8px;
+        }
+
+        .mc-options label {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 2px solid var(--border);
+            transition: all 0.3s;
+        }
+
+        .mc-options label:hover {
+            border-color: var(--primary-light);
+            background: rgba(57, 73, 171, 0.04);
+        }
+
+        .mc-options input[type=radio] {
+            margin-top: 3px;
+        }
+
+        .check-btn {
+            background: var(--accent2);
+            color: #fff;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            margin-top: 8px;
+        }
+
+        .correct-answer {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .wrong-answer {
+            color: var(--danger);
+            font-weight: 600;
+        }
+
+        .section-banner {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            color: #fff;
+            border-radius: var(--radius-sm);
+            padding: 16px 24px;
+            margin: 24px 0 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-banner h3 {
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        .q-block {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+
+        .q-block h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .timer-display {
+            font-size: 2.5rem;
+            font-family: var(--font-display);
+            color: var(--accent);
+            text-align: center;
+        }
+
+        .timer-label {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <div class="brand-icon">📊</div>STA 3401
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">🏠 ගෙදර</a></li>
+            <li><a href="01-introduction.html">හැඳිනීම</a></li>
+            <li><a href="02-linear-regression.html">Linear</a></li>
+            <li><a href="03-nonlinear.html">Nonlinear</a></li>
+            <li><a href="04-regularization.html">Regularization</a></li>
+            <li><a href="05-logistic.html">Logistic</a></li>
+            <li><a href="06-cv-bootstrap.html">CV & Bootstrap</a></li>
+            <li><a href="practice.html" class="active">📝 Practice</a></li>
+        </ul>
+        <button class="nav-toggle">☰</button>
+    </nav>
+    <div class="mobile-nav">
+        <a href="index.html">🏠 ගෙදර</a>
+        <a href="01-introduction.html">1. Introduction</a>
+        <a href="02-linear-regression.html">2. Linear Regression</a>
+        <a href="03-nonlinear.html">3. Nonlinear Models</a>
+        <a href="04-regularization.html">4. Regularization</a>
+        <a href="05-logistic.html">5. Logistic Regression</a>
+        <a href="06-cv-bootstrap.html">6. CV & Bootstrap</a>
+        <a href="practice.html">📝 Practice Exam</a>
+    </div>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-heading">Topics</div>
+                <a href="index.html" class="sidebar-link"><span class="link-icon">🏠</span>ගෙදර</a>
+                <a href="01-introduction.html" class="sidebar-link"><span class="link-icon">🔭</span>1. හැඳිනීම</a>
+                <a href="02-linear-regression.html" class="sidebar-link"><span class="link-icon">📈</span>2. Linear
+                    Regression</a>
+                <a href="03-nonlinear.html" class="sidebar-link"><span class="link-icon">〰️</span>3. Nonlinear</a>
+                <a href="04-regularization.html" class="sidebar-link"><span class="link-icon">🔧</span>4.
+                    Regularization</a>
+                <a href="05-logistic.html" class="sidebar-link"><span class="link-icon">🎯</span>5. Logistic</a>
+                <a href="06-cv-bootstrap.html" class="sidebar-link"><span class="link-icon">🔁</span>6. CV &
+                    Bootstrap</a>
+                <a href="practice.html" class="sidebar-link active"><span class="link-icon">📝</span>Practice Exam</a>
+            </div>
+            <div class="sidebar-section" style="margin-top:16px;">
+                <div class="sidebar-heading">Exam Timer</div>
+                <div style="padding:16px 20px;">
+                    <div class="timer-display" id="timer">3:00:00</div>
+                    <div class="timer-label">3 hours (180 min)</div>
+                    <div style="display:flex;gap:8px;margin-top:12px;">
+                        <button class="btn btn-primary" onclick="startTimer()"
+                            style="flex:1;padding:8px;font-size:0.8rem;">▶ Start</button>
+                        <button class="btn btn-outline" onclick="resetTimer()"
+                            style="flex:1;padding:8px;font-size:0.8rem;">↺ Reset</button>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="breadcrumb">
+                <a href="index.html">ගෙදර</a><span class="sep">›</span><span>Practice Exam</span>
+            </div>
+
+            <!-- EXAM HEADER -->
+            <div class="exam-header">
+                <h1>🎓 RAJARATA UNIVERSITY OF SRI LANKA</h1>
+                <p>Faculty of Applied Sciences · BSc in Applied Sciences · Third Year Semester I</p>
+                <h2 style="margin-top:8px;font-size:1.4rem;">STA 3401 – STATISTICAL LEARNING</h2>
+                <div class="exam-meta">
+                    <div class="exam-meta-item">
+                        <div class="val">3</div>
+                        <div class="lbl">Hours</div>
+                    </div>
+                    <div class="exam-meta-item">
+                        <div class="val">5</div>
+                        <div class="lbl">Questions</div>
+                    </div>
+                    <div class="exam-meta-item">
+                        <div class="val">ALL</div>
+                        <div class="lbl">Answer All</div>
+                    </div>
+                </div>
+                <p style="margin-top:16px;font-size:0.82rem;opacity:0.7;">💡 "Model Answers බලන්න" click කළ විට answer
+                    reveal. Timer start කර practice කරන්න.</p>
+            </div>
+
+            <!-- MCQ SECTION -->
+            <div class="section-banner">
+                <span style="font-size:1.5rem;">📋</span>
+                <h3>Part A – Short Answer / MCQ Practice (Topic-wise)</h3>
+            </div>
+
+            <div id="mcq-container"></div>
+
+            <!-- QUESTION 1 -->
+            <div class="section-banner">
+                <span style="font-size:1.5rem;">Q1</span>
+                <div>
+                    <h3>Regression Analysis – Air Quality Dataset (33 marks)</h3>
+                    <small style="opacity:0.7;">File: Q1-YourRegNumber.Rmd</small>
+                </div>
+            </div>
+
+            <div class="q-block">
+                <div class="marks-badge">2 marks</div>
+                <h4>(a) Dataset Load කිරීම</h4>
+                <p>AirQuality.csv file load කර data structure explore කරන්න.</p>
+                <button class="reveal-btn" onclick="toggleAnswer(this)">👁 Model Answer බලන්න</button>
+                <div class="model-answer">
+                    <div class="code-block">
+                        <div class="code-header"><span>R</span>
+                            <div><span class="lang-tag">R</span></div>
+                        </div>
+                        <pre><code>df <- <span class="r-func">read.csv</span>(<span class="r-string">"AirQuality.csv"</span>, header = <span class="r-keyword">TRUE</span>)
+<span class="r-func">str</span>(df)
+<span class="r-func">summary</span>(df)
+<span class="r-func">head</span>(df)</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="q-block">
+                <div class="marks-badge">3 marks</div>
+                <h4>(b) Visualization</h4>
+                <p>RH සහ quantitative variables අතර relationships explore කරන්න (scatterplots, correlation plots).</p>
+                <button class="reveal-btn" onclick="toggleAnswer(this)">👁 Model Answer බලන්න</button>
+                <div class="model-answer">
+                    <div class="code-block">
+                        <div class="code-header"><span>R</span>
+                            <div><span class="lang-tag">R</span></div>
+                        </div>
+                        <pre><code><span class="r-keyword">library</span>(corrplot)
+nums <- df[, <span class="r-func">sapply</span>(df, is.numeric)]
+<span class="r-func">corrplot</span>(<span class="r-func">cor</span>(nums, use = <span class="r-string">"complete.obs"</span>), method = <span class="r-string">"color"</span>,
+         title = <span class="r-string">"Correlation Matrix"</span>, mar = <span class="r-func">c</span>(<span class="r-number">0</span>,<span class="r-number">0</span>,<span class="r-number">2</span>,<span class="r-number">0</span>))
+
+<span class="r-comment"># Scatterplots</span>
+<span class="r-func">pairs</span>(nums[, <span class="r-func">c</span>(<span class="r-string">"RH"</span>,<span class="r-string">"T"</span>,<span class="r-string">"AH"</span>,<span class="r-string">"CO"</span>,<span class="r-string">"NOx"</span>)], pch = <span class="r-number">16</span>, col = <span class="r-string">"steelblue"</span>)</code></pre>
+                    </div>
+                    <div class="highlight-primary" style="margin-top:12px;">
+                        <strong>Interpretation:</strong> T (Temperature) සහ RH negative correlation ඇත. AH (Absolute
+                        Humidity) positive correlation. NOx, CO weak/moderate correlations show.
+                    </div>
+                </div>
+            </div>
+
+            <div class="q-block">
+                <div class="marks-badge">3 marks</div>
+                <h4>(c) Simple Linear Regression: RH ~ T</h4>
+                <p>i. Estimated regression equation ලියන්න. ii. Slope coefficient interpret කරන්න.</p>
+                <button class="reveal-btn" onclick="toggleAnswer(this)">👁 Model Answer බලන්න</button>
+                <div class="model-answer">
+                    <div class="code-block">
+                        <div class="code-header"><span>R</span>
+                            <div><span class="lang-tag">R</span></div>
+                        </div>
+                        <pre><code>fit_c <- <span class="r-func">lm</span>(RH ~ T, data = df)
+<span class="r-func">summary</span>(fit_c)
+<span class="r-func">coef</span>(fit_c)</code></pre>
+                    </div>
+                    <div class="highlight-primary" style="margin-top:12px;">
+                        <strong>i. Equation:</strong> RĤ = β̂₀ + β̂₁ × T (R output ගෙන actual values
+                        substitute)<br><br>
+                        <strong>ii. Slope Interpretation:</strong> Temperature 1°C increase ෙදී, Relative Humidity β̂₁
+                        units average change. (Negative slope expected — higher temperature → lower humidity)
+                    </div>
+                </div>
+            </div>
+
+            <div class="q-block">
+                <div class="marks-badge">3 marks</div>
+                <h4>(d) Multiple Linear Regression</h4>
+                <p>All quantitative predictors use. 5% level ෙදී statistically significant predictors identify.</p>
+                <button class="reveal-btn" onclick="toggleAnswer(this)">👁 Model Answer බලන්න</button>
+                <div class="model-answer">
+                    <div class="code-block">
+                        <div class="code-header"><span>R</span>
+                            <div><span class="lang-tag">R</span></div>
+                        </div>
+                        <pre><code>fit_d <- <span class="r-func">lm</span>(RH ~ ., data = df)
+<span class="r-func">summary</span>(fit_d)
+<span class="r-comment"># Significant at 5%: p-value < 0.05 olan predictors</span></code></pre>
+                    </div>
+                    <div class="highlight-primary" style="margin-top:12px;">
+                        summary(fit_d) output ෙදී Pr(&gt;|t|) column බලන්න. p-value &lt; 0.05 olan predictors =
+                        significant. *** or ** or * markers ඇති ඒවා.
+                    </div>
+                </div>
+            </div>
+
+            <div class="q-block">
+                <div class="marks-badge">3 marks</div>
+                <h4>(e) Stepwise Model Selection</h4>
+                <p>Forward or Backward stepwise. Final model variables list.</p>
+                <button class="reveal-btn" onclick="toggleAnswer(this)">👁 Model Answer බලන්න</button>
+                <div class="model-answer">
+                    <div class="code-block">
+                        <div class="code-header"><span>R</span>
+                            <div><span class="lang-tag">R</span></div>
+                        </div>
+                        <pre><code>fit_step <- <span class="r-func">step</span>(fit_d, direction = <span class="r-string">"backward"</span>)
+<span class="r-func">summary</span>(fit_step)
+<span class="r-comment"># Final model variables:</span>
+<span class="r-func">names</span>(<span class="r-func">coef</span>(fit_step))</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="q-block">
+                <div class="marks-badge">8 marks</div>
+                <h4>(f) KNN Regression</h4>
+                <ol class="sub-parts">
+                    <li>Train 70%, Test 30% split</li>
+                    <li>Predictors standardize</li>
+                    <li>CV ගෙන optimal k</li>
+                    <li>Test RMSE report</li>
+                </ol>
+                <button class="reveal-btn" onclick="toggleAnswer(this)">👁 Model Answer බලන්න</button>
+                <div class="model-answer">
+                    <div class="code-block">
+                        <div class="code-header"><span>R</span>
+                            <div><span class="lang-tag">R</span></div>
+                        </div>
+                        <pre><code><span class="r-keyword">library</span>(caret)
+df_c <- <span class="r-func">na.omit</span>(df)
+set.seed(<span class="r-number">42</span>)
+idx <- <span class="r-func">createDataPartition</span>(df_c$RH, p=<span class="r-number">0.7</span>, list=<span class="r-keyword">FALSE</span>)
+train <- df_c[idx,]; test <- df_c[-idx,]
+
+<span class="r-comment"># Standardize</span>
+pp <- <span class="r-func">preProcess</span>(train[,-<span class="r-func">which</span>(<span class="r-func">names</span>(train)==<span class="r-string">"RH"</span>)],
+                  method=<span class="r-func">c</span>(<span class="r-string">"center"</span>,<span class="r-string">"scale"</span>))
+X_train_sc <- <span class="r-func">predict</span>(pp, train[,-<span class="r-func">which</span>(<span class="r-func">names</span>(train)==<span class="r-string">"RH"</span>)])
+X_test_sc  <- <span class="r-func">predict</span>(pp, test[,-<span class="r-func">which</span>(<span class="r-func">names</span>(test)==<span class="r-string">"RH"</span>)])
+
+ctrl <- <span class="r-func">trainControl</span>(method=<span class="r-string">"cv"</span>, number=<span class="r-number">10</span>)
+knn_m <- <span class="r-func">train</span>(x=X_train_sc, y=train$RH, method=<span class="r-string">"knn"</span>,
+               trControl=ctrl, tuneLength=<span class="r-number">20</span>)
+preds <- <span class="r-func">predict</span>(knn_m, X_test_sc)
+rmse  <- <span class="r-func">sqrt</span>(<span class="r-func">mean</span>((test$RH - preds)^<span class="r-number">2</span>))
+<span class="r-func">cat</span>(<span class="r-string">"KNN Test RMSE:"</span>, rmse)</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="q-block">
+                <div class="marks-badge">6 marks</div>
+                <h4>(g) Lasso Regression</h4>
+                <p>i. CV ගෙන optimal λ. ii. Nonzero coefficients identify.</p>
+                <button class="reveal-btn" onclick="toggleAnswer(this)">👁 Model Answer බලන්න</button>
+                <div class="model-answer">
+                    <div class="code-block">
+                        <div class="code-header"><span>R</span>
+                            <div><span class="lang-tag">R</span></div>
+                        </div>
+                        <pre><code><span class="r-keyword">library</span>(glmnet)
+df_c <- <span class="r-func">na.omit</span>(df)
+X <- <span class="r-func">model.matrix</span>(RH ~ ., data=df_c)[,-<span class="r-number">1</span>]
+y <- df_c$RH
+set.seed(<span class="r-number">42</span>)
+lasso_cv <- <span class="r-func">cv.glmnet</span>(X, y, alpha=<span class="r-number">1</span>)
+<span class="r-func">cat</span>(<span class="r-string">"Optimal lambda:"</span>, lasso_cv$lambda.min)
+<span class="r-func">coef</span>(lasso_cv, s=<span class="r-string">"lambda.min"</span>)</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="q-block">
+                <div class="marks-badge">5 marks</div>
+                <h4>(h) Model Comparison</h4>
+                <p>Stepwise vs KNN vs Lasso — predictive performance compare. Best model justify.</p>
+                <button class="reveal-btn" onclick="toggleAnswer(this)">👁 Model Answer බලන්න</button>
+                <div class="model-answer">
+                    <div class="highlight-primary">
+                        <strong>Model Comparison:</strong><br><br>
+                        <strong>Stepwise:</strong> Interpretable, automatic variable selection. OLS assumptions needed.
+                        RMSE compare.<br><br>
+                        <strong>KNN:</strong> Non-parametric, nonlinear patterns. Less interpretable. Need
+                        standardization.<br><br>
+                        <strong>Lasso:</strong> Automatic variable selection + shrinkage. Handles multicollinearity.
+                        Sparse model.<br><br>
+                        <strong>Best Balance:</strong> Lasso — interpretability (selected variables) + competitive
+                        predictive accuracy + handles collinearity among air quality variables. RMSE compare කරා
+                        validate.
+                    </div>
+                </div>
+            </div>
+
+            <!-- QUESTION 2 -->
+            <div class="section-banner">
+                <span style="font-size:1.5rem;">Q2</span>
+                <div>
+                    <h3>Regularization, Nonlinear Models, Decision Trees (17+6+3+2+15 = 43 marks)</h3>
+                </div>
+            </div>
+
+            <div class="q-block">
+                <div class="marks-badge">6 marks</div>
+                <h4>(a) Ridge vs Lasso — Penalty Functions</h4>
+                <button class="reveal-btn" onclick="toggleAnswer(this)">👁 Model Answer බලන්න</button>
+                <div class="model-answer">
+                    <div class="highlight-primary">
+                        <strong>Ridge Regression (L2 Penalty):</strong><br>
+                        Minimize: Σ(yᵢ − ŷᵢ)² + λΣβⱼ²<br>
+                        • Coefficients toward zero shrink, never exactly zero.<br>
+                        • Variable selection නොකරයි.<br>
+                        • Correlated predictors together shrink (stable).<br><br>
+                        <strong>Lasso Regression (L1 Penalty):</strong><br>
+                        Minimize: Σ(yᵢ − ŷᵢ)² + λΣ|βⱼ|<br>
+                        • Some coefficients exactly zero → automatic variable selection.<br>
+                        • Sparse models produce.<br>
+                        • Correlated predictors: arbitrarily one select (unstable).<br><br>
+                        <strong>Key Difference:</strong> Ridge = shrinkage only. Lasso = shrinkage + selection.
+                    </div>
+                </div>
+            </div>
+
+            <div class="q-block">
+                <div class="marks-badge">6 marks</div>
+                <h4>(b) Linear or Nonlinear in Parameters?</h4>
+                <p>i. Yᵢ = β₀ + β₁e^Xᵢ + εᵢ &nbsp;&nbsp; ii. Yᵢ = β₀ + β₁Xᵢ^β₂ + εᵢ &nbsp;&nbsp; iii. Yᵢ = β₀Xᵢ/(β₁ +
+                    Xᵢ) + εᵢ</p>
+                <button class="reveal-btn" onclick="toggleAnswer(this)">👁 Model Answer බලන්න</button>
+                <div class="model-answer">
+                    <div class="highlight-primary">
+                        <strong>i. Yᵢ = β₀ + β₁e^Xᵢ + εᵢ</strong><br>
+                        → <span class="correct-answer">LINEAR in parameters</span>. β₀, β₁ linear ව appear. e^Xᵢ
+                        transformation of X (predictor), not parameter. OLS ගෙන estimate possible.<br><br>
+                        <strong>ii. Yᵢ = β₀ + β₁Xᵢ^β₂ + εᵢ</strong><br>
+                        → <span class="wrong-answer">NONLINEAR in parameters</span>. β₂ exponent position ෙදී ඇත.
+                        Parameters (β) linear combination නොවේ.<br><br>
+                        <strong>iii. Yᵢ = β₀Xᵢ/(β₁ + Xᵢ) + εᵢ</strong><br>
+                        → <span class="wrong-answer">NONLINEAR in parameters</span>. β₁ denominator ෙදී ඇත. Linear
+                        algebra ගෙන solve කළ නොහැකිය (Michaelis-Menten model).
+                    </div>
+                </div>
+            </div>
+
+            <div class="q-block">
+                <div class="marks-badge">3 marks</div>
+                <h4>(c) Nonlinear Models ඇයි?</h4>
+                <button class="reveal-btn" onclick="toggleAnswer(this)">👁 Model Answer බලන්න</button>
+                <div class="model-answer">
+                    <div class="highlight-primary">
+                        Linear regression: Straight-line relationship assume. Data හි curves, thresholds, complex shapes
+                        ඇතිනම় poor fit.<br><br>
+                        Examples: Height vs Age (growth curve), Drug dosage vs Effect (saturation), Income vs Education
+                        (diminishing returns).<br><br>
+                        Nonlinear models realistic biological, economic, medical patterns capture.
+                    </div>
+                </div>
+            </div>
+
+            <div class="q-block">
+                <div class="marks-badge">2 marks</div>
+                <h4>(d) Two Approaches in Nonlinear Regression</h4>
+                <button class="reveal-btn" onclick="toggleAnswer(this)">👁 Model Answer බලన්න</button>
+                <div class="model-answer">
+                    <div class="highlight-primary">
+                        <strong>1. Modify/Transform Predictors:</strong> Polynomial regression (X, X², X³), log
+                        transformations — linear framework maintain.<br><br>
+                        <strong>2. Break Predictor Space:</strong> Step functions (intervals), splines (piecewise
+                        polynomials at knots), local regression (LOESS).
+                    </div>
+                </div>
+            </div>
+
+            <div class="q-block">
+                <div class="marks-badge">5 marks</div>
+                <h4>(e) Smoothing Splines සහ LOESS</h4>
+                <p>Smoothing splines සහ local regression (LOESS) concept explain. λ parameter role.</p>
+                <button class="reveal-btn" onclick="toggleAnswer(this)">👁 Model Answer බලන්න</button>
+                <div class="model-answer">
+                    <div class="highlight-primary">
+                        <strong>Smoothing Splines:</strong><br>
+                        • හැම data point ෙදීම knot place. Overfitting prevent: penalty on curvature add.<br>
+                        • Minimize: Σ(yᵢ − f(xᵢ))² + λ∫[f″(x)]² dx<br>
+                        • λ large → smoother curve (high bias, low variance).<br>
+                        • λ small → wiggly curve (low bias, high variance).<br>
+                        • GCV (Generalized Cross-Validation) ගෙන optimal λ select.<br><br>
+                        <strong>LOESS/LOWESS (Local Regression):</strong><br>
+                        • Global model fit කරන්නේ නෑ — locally around each point weighted regression.<br>
+                        • Span parameter (s): proportion of data used per local fit.<br>
+                        • Small span → flexible, overfit risk. Large span → smooth, underfit risk.<br>
+                        • Weights: tricube weight function — nearer points get more weight.<br><br>
+                        <div class="code-block">
+                            <div class="code-header"><span>R</span>
+                                <div><span class="lang-tag">R</span></div>
+                            </div>
+                            <pre><code><span class="r-comment"># Smoothing Spline</span>
+ss_fit <- <span class="r-func">smooth.spline</span>(x, y, cv = <span class="r-keyword">TRUE</span>)
+<span class="r-func">plot</span>(x, y, pch=<span class="r-number">16</span>); <span class="r-func">lines</span>(ss_fit, col=<span class="r-string">"red"</span>, lwd=<span class="r-number">2</span>)
+
+<span class="r-comment"># LOESS</span>
+lo_fit <- <span class="r-func">loess</span>(y ~ x, span = <span class="r-number">0.5</span>)
+x_grid <- <span class="r-func">seq</span>(<span class="r-func">min</span>(x), <span class="r-func">max</span>(x), length.out=<span class="r-number">100</span>)
+<span class="r-func">lines</span>(x_grid, <span class="r-func">predict</span>(lo_fit, x_grid), col=<span class="r-string">"blue"</span>, lwd=<span class="r-number">2</span>)</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="q-block">
+                <div class="marks-badge">5 marks</div>
+                <h4>(f) GAM (Generalized Additive Model)</h4>
+                <p>GAM concept explain. Wage data ෙදී age + education → wage predict.</p>
+                <button class="reveal-btn" onclick="toggleAnswer(this)">👁 Model Answer බලන්න</button>
+                <div class="model-answer">
+                    <div class="highlight-primary">
+                        <strong>GAM Framework:</strong><br>
+                        y = β₀ + f₁(x₁) + f₂(x₂) + ⋯ + fₚ(xₚ) + ε<br><br>
+                        • Linear model extend: fⱼ = smooth nonlinear functions per predictor.<br>
+                        • Additive structure → interpretability maintain (each fⱼ plot separately).<br>
+                        • Multiple predictors ෙදී nonlinear relationships capture.<br>
+                        • mgcv package R ෙදී.<br><br>
+                        <div class="code-block">
+                            <div class="code-header"><span>R</span>
+                                <div><span class="lang-tag">R</span></div>
+                            </div>
+                            <pre><code><span class="r-keyword">library</span>(mgcv)
+gam_fit <- <span class="r-func">gam</span>(wage ~ <span class="r-func">s</span>(age) + education,
+                data = Wage, family = gaussian)
+<span class="r-func">summary</span>(gam_fit)
+<span class="r-func">plot</span>(gam_fit, pages = <span class="r-number">1</span>, residuals = <span class="r-keyword">TRUE</span>)</code></pre>
+                        </div>
+                        <br><strong>Interpretation:</strong> s(age) = smooth spline for age. Education = parametric
+                        term. Each fⱼ plot → direction + shape of relationship visible.
+                    </div>
+                </div>
+            </div>
+
+            <div class="q-block">
+                <div class="marks-badge">4 marks</div>
+                <h4>(g) Elastic Net Regression</h4>
+                <p>Elastic Net ෙදී α parameter role. Ridge සහ Lasso සමඟ compare.</p>
+                <button class="reveal-btn" onclick="toggleAnswer(this)">👁 Model Answer බලන්න</button>
+                <div class="model-answer">
+                    <div class="highlight-primary">
+                        <strong>Elastic Net Penalty:</strong><br>
+                        Minimize: Σ(yᵢ − ŷᵢ)² + λ[α Σ|βⱼ| + (1−α) Σβⱼ²]<br><br>
+                        • α = 1 → Lasso (L1 only). α = 0 → Ridge (L2 only). 0 &lt; α &lt; 1 → Elastic Net.<br>
+                        • Correlated predictors → groups select (Ridge component).<br>
+                        • Sparse model produce (Lasso component).<br>
+                        • Lasso problem: correlated predictors ෙදී arbitrarily one select → Elastic Net ෙදී
+                        stable.<br><br>
+                        <div class="code-block">
+                            <div class="code-header"><span>R</span>
+                                <div><span class="lang-tag">R</span></div>
+                            </div>
+                            <pre><code>enet_cv <- <span class="r-func">cv.glmnet</span>(X, y, alpha = <span class="r-number">0.5</span>)  <span class="r-comment"># α=0.5</span>
+<span class="r-func">coef</span>(enet_cv, s = <span class="r-string">"lambda.min"</span>)</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QUESTION 3 -->
+            <div class="section-banner">
+                <span style="font-size:1.5rem;">Q3</span>
+                <div>
+                    <h3>Logistic Regression – Classification (30 marks)</h3>
+                    <small style="opacity:0.7;">File: Q3-YourRegNumber.Rmd</small>
+                </div>
+            </div>
+
+            <div class="q-block">
+                <div class="marks-badge">4 marks</div>
+                <h4>(a) Why Not Linear Regression for Classification?</h4>
+                <p>Binary outcome (0/1) predict කිරීමට linear regression ගත නොහැකි ඇයි? Logistic regression solution.
+                </p>
+                <button class="reveal-btn" onclick="toggleAnswer(this)">👁 Model Answer බලන්න</button>
+                <div class="model-answer">
+                    <div class="highlight-primary">
+                        <strong>Linear Regression Problems for Classification:</strong><br>
+                        1. <strong>Range violation:</strong> Predictions outside [0,1] → probabilities invalid (-0.3 or
+                        1.8 probability meaningless).<br>
+                        2. <strong>Heteroscedasticity:</strong> Binary Y → non-constant error variance.<br>
+                        3. <strong>Poor interpretability:</strong> Predicted values as probabilities
+                        inappropriate.<br><br>
+                        <strong>Logistic Regression Solution:</strong><br>
+                        • Logistic (sigmoid) function: P(Y=1|X) = 1/(1 + e^(−z)), z = β₀ + β₁X<br>
+                        • Output always ∈ [0,1] → valid probability.<br>
+                        • S-shaped curve → classification natural.<br>
+                        • MLE (Maximum Likelihood Estimation) ගෙන parameters estimate.
+                    </div>
+                </div>
+            </div>
+
+            <div class="q-block">
+                <div class="marks-badge">5 marks</div>
+                <h4>(b) Logistic Regression – Default Dataset</h4>
+                <p>Default dataset (ISLR2). Balance, Income ගෙන default (yes/no) predict. Model fit + summary.</p>
+                <button class="reveal-btn" onclick="toggleAnswer(this)">👁 Model Answer බලන්න</button>
+                <div class="model-answer">
+                    <div class="code-block">
+                        <div class="code-header"><span>R</span>
+                            <div><span class="lang-tag">R</span></div>
+                        </div>
+                        <pre><code><span class="r-keyword">library</span>(ISLR2)
+<span class="r-func">data</span>(Default)
+
+<span class="r-comment"># Convert to binary</span>
+Default$default_bin <- <span class="r-func">ifelse</span>(Default$default == <span class="r-string">"Yes"</span>, <span class="r-number">1</span>, <span class="r-number">0</span>)
+
+<span class="r-comment"># Fit logistic regression</span>
+log_fit <- <span class="r-func">glm</span>(default_bin ~ balance + income,
+                data = Default,
+                family = <span class="r-func">binomial</span>(<span class="r-string">"logit"</span>))
+
+<span class="r-func">summary</span>(log_fit)
+<span class="r-func">coef</span>(log_fit)
+<span class="r-func">exp</span>(<span class="r-func">coef</span>(log_fit))  <span class="r-comment"># Odds Ratios</span></code></pre>
+                    </div>
+                    <div class="highlight-primary" style="margin-top:12px;">
+                        <strong>Interpretation:</strong> balance coefficient positive → higher balance = higher default
+                        probability. Odds Ratio = exp(β) → 1 unit balance increase ෙදී odds exp(β̂_balance) times
+                        multiply.
+                    </div>
+                </div>
+            </div>
+
+            <div class="q-block">
+                <div class="marks-badge">4 marks</div>
+                <h4>(c) Predicted Probabilities + Classification</h4>
+                <p>Threshold 0.5 ගෙන predict. Confusion matrix produce.</p>
+                <button class="reveal-btn" onclick="toggleAnswer(this)">👁 Model Answer බලන්න</button>
+                <div class="model-answer">
+                    <div class="code-block">
+                        <div class="code-header"><span>R</span>
+                            <div><span class="lang-tag">R</span></div>
+                        </div>
+                        <pre><code><span class="r-comment"># Predicted probabilities</span>
+pred_prob <- <span class="r-func">predict</span>(log_fit, type = <span class="r-string">"response"</span>)
+
+<span class="r-comment"># Classify: threshold = 0.5</span>
+pred_class <- <span class="r-func">ifelse</span>(pred_prob > <span class="r-number">0.5</span>, <span class="r-number">1</span>, <span class="r-number">0</span>)
+
+<span class="r-comment"># Confusion matrix</span>
+conf_mat <- <span class="r-func">table</span>(Actual = Default$default_bin,
+                   Predicted = pred_class)
+<span class="r-func">print</span>(conf_mat)
+
+<span class="r-comment"># Accuracy</span>
+accuracy <- <span class="r-func">mean</span>(pred_class == Default$default_bin)
+<span class="r-func">cat</span>(<span class="r-string">"Accuracy:"</span>, accuracy)</code></pre>
+                    </div>
+                    <div class="highlight-primary" style="margin-top:12px;">
+                        <strong>Confusion Matrix:</strong> TP (correctly predicted default), TN (correctly predicted
+                        no-default), FP (false alarm), FN (missed defaults). Sensitivity = TP/(TP+FN). Specificity =
+                        TN/(TN+FP).
+                    </div>
+                </div>
+            </div>
+
+            <div class="q-block">
+                <div class="marks-badge">4 marks</div>
+                <h4>(d) Odds Ratio Interpretation</h4>
+                <p>Balance coefficient interpret. Odds Ratio calculate. "Balance $1 increase ෙදී default odds change"
+                    explain.</p>
+                <button class="reveal-btn" onclick="toggleAnswer(this)">👁 Model Answer බලන්න</button>
+                <div class="model-answer">
+                    <div class="highlight-primary">
+                        <strong>Log-Odds (Logit):</strong> log(p/(1−p)) = β₀ + β₁×balance<br><br>
+                        <strong>Odds Ratio = exp(β̂₁)</strong><br>
+                        • exp(β̂_balance) ≈ 1.006 example.<br>
+                        • Balance $1 increase → default odds 1.006 times (0.6%) increase.<br>
+                        • β̂ > 0 → positive relationship. β̂ &lt; 0 → protective effect.<br><br>
+                        <div class="code-block">
+                            <div class="code-header"><span>R</span>
+                                <div><span class="lang-tag">R</span></div>
+                            </div>
+                            <pre><code>odds_ratios <- <span class="r-func">exp</span>(<span class="r-func">coef</span>(log_fit))
+ci_or <- <span class="r-func">exp</span>(<span class="r-func">confint</span>(log_fit))
+<span class="r-func">cbind</span>(OR = odds_ratios, ci_or)</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="q-block">
+                <div class="marks-badge">5 marks</div>
+                <h4>(e) Train/Test Split + Test Accuracy</h4>
+                <p>70/30 split. Test set ෙදී model evaluate. Classification report.</p>
+                <button class="reveal-btn" onclick="toggleAnswer(this)">👁 Model Answer බලන්න</button>
+                <div class="model-answer">
+                    <div class="code-block">
+                        <div class="code-header"><span>R</span>
+                            <div><span class="lang-tag">R</span></div>
+                        </div>
+                        <pre><code>set.seed(<span class="r-number">42</span>)
+n_d <- <span class="r-func">nrow</span>(Default)
+train_idx <- <span class="r-func">sample</span>(<span class="r-number">1</span>:n_d, size = <span class="r-func">round</span>(<span class="r-number">0.7</span>*n_d))
+
+train_d <- Default[train_idx, ]
+test_d  <- Default[-train_idx, ]
+
+<span class="r-comment"># Fit on train</span>
+fit_train <- <span class="r-func">glm</span>(default_bin ~ balance + income,
+                  data = train_d, family = <span class="r-func">binomial</span>())
+
+<span class="r-comment"># Predict on test</span>
+test_prob  <- <span class="r-func">predict</span>(fit_train, newdata = test_d, type = <span class="r-string">"response"</span>)
+test_class <- <span class="r-func">ifelse</span>(test_prob > <span class="r-number">0.5</span>, <span class="r-number">1</span>, <span class="r-number">0</span>)
+
+<span class="r-func">table</span>(Actual = test_d$default_bin, Predicted = test_class)
+<span class="r-func">cat</span>(<span class="r-string">"Test Accuracy:"</span>, <span class="r-func">mean</span>(test_class == test_d$default_bin))</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="q-block">
+                <div class="marks-badge">4 marks</div>
+                <h4>(f) Multiple Logistic Regression — Qualitative Predictor</h4>
+                <p>Student (Yes/No) categorical predictor add. Coefficient interpret.</p>
+                <button class="reveal-btn" onclick="toggleAnswer(this)">👁 Model Answer බලන්න</button>
+                <div class="model-answer">
+                    <div class="code-block">
+                        <div class="code-header"><span>R</span>
+                            <div><span class="lang-tag">R</span></div>
+                        </div>
+                        <pre><code>fit_full <- <span class="r-func">glm</span>(default_bin ~ balance + income + student,
+                   data = Default, family = <span class="r-func">binomial</span>())
+<span class="r-func">summary</span>(fit_full)
+<span class="r-func">exp</span>(<span class="r-func">coef</span>(fit_full))  <span class="r-comment"># Odds Ratios</span></code></pre>
+                    </div>
+                    <div class="highlight-primary" style="margin-top:12px;">
+                        <strong>Interpretation:</strong> studentYes coefficient → student vs non-student default odds
+                        ratio. Positive → students higher default odds (controlling balance, income). R ෙදී factor
+                        automatically dummy code.
+                    </div>
+                </div>
+            </div>
+
+            <div class="q-block">
+                <div class="marks-badge">4 marks</div>
+                <h4>(g) Multiclass — Multinomial Logistic Regression</h4>
+                <p>3+ class outcome ෙදී logistic extend. nnet package ගෙන example.</p>
+                <button class="reveal-btn" onclick="toggleAnswer(this)">👁 Model Answer බලන්න</button>
+                <div class="model-answer">
+                    <div class="code-block">
+                        <div class="code-header"><span>R</span>
+                            <div><span class="lang-tag">R</span></div>
+                        </div>
+                        <pre><code><span class="r-keyword">library</span>(nnet)
+<span class="r-comment"># Example: iris dataset (3 classes)</span>
+multi_fit <- <span class="r-func">multinom</span>(Species ~ Sepal.Length + Sepal.Width,
+                       data = iris)
+<span class="r-func">summary</span>(multi_fit)
+preds_m <- <span class="r-func">predict</span>(multi_fit, type = <span class="r-string">"class"</span>)
+<span class="r-func">table</span>(Actual = iris$Species, Predicted = preds_m)</code></pre>
+                    </div>
+                    <div class="highlight-primary" style="margin-top:12px;">
+                        <strong>Concept:</strong> K classes → K−1 logit equations (reference class ගෙන). P(Y=k|X) /
+                        P(Y=K|X) = exp(βₖ₀ + βₖ₁X). Softmax function probabilities produce. Binary logistic special case
+                        when K=2.
+                    </div>
+                </div>
+            </div>
+
+            <!-- QUESTION 4 -->
+            <div class="section-banner">
+                <span style="font-size:1.5rem;">Q4</span>
+                <div>
+                    <h3>Cross-Validation Methods (30 marks)</h3>
+                    <small style="opacity:0.7;">File: Q4-YourRegNumber.Rmd</small>
+                </div>
+            </div>
+
+            <div class="q-block">
+                <div class="marks-badge">5 marks</div>
+                <h4>(a) Why Cross-Validation?</h4>
+                <p>Training error vs test error problem. CV ගෙන solve කරන ආකාරය.</p>
+                <button class="reveal-btn" onclick="toggleAnswer(this)">👁 Model Answer බලන්න</button>
+                <div class="model-answer">
+                    <div class="highlight-primary">
+                        <strong>Training Error Problem:</strong><br>
+                        • Model train data ෙදී fit → training error always decreases with complexity.<br>
+                        • Overfitting: training error low, test error high → poor generalization.<br>
+                        • Test set separate රඛිය නොහැකිනම் error estimate impossible.<br><br>
+                        <strong>CV Solution:</strong><br>
+                        • Training data ෙදීම split → train + validate.<br>
+                        • Multiple rounds → stable test error estimate.<br>
+                        • Model selection (degree, k, λ) ෙදී use.<br>
+                        • No additional test data needed.<br><br>
+                        <strong>Methods:</strong> Validation Set, LOOCV, K-Fold CV (most common), Stratified CV.
+                    </div>
+                </div>
+            </div>
+
+            <div class="q-block">
+                <div class="marks-badge">6 marks</div>
+                <h4>(b) K-Fold CV — Polynomial Degree Selection</h4>
+                <p>data.set.1.csv ගෙන 10-fold CV. Degrees 1–25 test. Best degree identify.</p>
+                <button class="reveal-btn" onclick="toggleAnswer(this)">👁 Model Answer බලන්න</button>
+                <div class="model-answer">
+                    <div class="code-block">
+                        <div class="code-header"><span>R</span>
+                            <div><span class="lang-tag">R</span></div>
+                        </div>
+                        <pre><code>df <- <span class="r-func">read.csv</span>(<span class="r-string">"data.set.1.csv"</span>, header = <span class="r-keyword">TRUE</span>)
+set.seed(<span class="r-number">123</span>)
+n <- <span class="r-func">nrow</span>(df)
+K <- <span class="r-number">10</span>
+folds <- <span class="r-func">sample</span>(<span class="r-func">rep</span>(<span class="r-number">1</span>:K, length.out = n))
+
+cv_error <- <span class="r-keyword">function</span>(degree) {
+  mse <- <span class="r-func">numeric</span>(K)
+  <span class="r-keyword">for</span> (k <span class="r-keyword">in</span> <span class="r-number">1</span>:K) {
+    train <- df[folds != k, ]
+    test  <- df[folds == k, ]
+    fit   <- <span class="r-func">lm</span>(y ~ <span class="r-func">poly</span>(x, degree, raw = <span class="r-keyword">TRUE</span>), data = train)
+    pred  <- <span class="r-func">predict</span>(fit, newdata = test)
+    mse[k] <- <span class="r-func">mean</span>((test$y - pred)^<span class="r-number">2</span>)
+  }
+  <span class="r-func">mean</span>(mse)
+}
+
+degrees <- <span class="r-number">1</span>:<span class="r-number">25</span>
+cv_results <- <span class="r-func">sapply</span>(degrees, cv_error)
+best_degree <- degrees[<span class="r-func">which.min</span>(cv_results)]
+<span class="r-func">cat</span>(<span class="r-string">"Best polynomial degree:"</span>, best_degree)
+
+<span class="r-func">plot</span>(degrees, cv_results, type=<span class="r-string">"b"</span>, pch=<span class="r-number">16</span>, col=<span class="r-string">"steelblue"</span>,
+     xlab=<span class="r-string">"Polynomial Degree"</span>, ylab=<span class="r-string">"10-Fold CV MSE"</span>)
+<span class="r-func">abline</span>(v=best_degree, col=<span class="r-string">"red"</span>, lty=<span class="r-number">2</span>)</code></pre>
+                    </div>
+                    <div class="highlight-primary" style="margin-top:12px;">
+                        <strong>Interpretation:</strong> CV MSE plot U-shape show. Minimum point = optimal degree. Too
+                        low degree → underfitting (high bias). Too high → overfitting (high variance).
+                    </div>
+                </div>
+            </div>
+
+            <div class="q-block">
+                <div class="marks-badge">4 marks</div>
+                <h4>(c) LOOCV vs K-Fold CV</h4>
+                <p>Leave-One-Out CV සහ K-Fold CV compare. Bias-Variance tradeoff.</p>
+                <button class="reveal-btn" onclick="toggleAnswer(this)">👁 Model Answer බලන්න</button>
+                <div class="model-answer">
+                    <div class="highlight-primary">
+                        <table style="width:100%;border-collapse:collapse;font-size:0.85rem;margin-top:8px;">
+                            <tr style="background:rgba(57,73,171,0.1);">
+                                <th style="padding:8px;text-align:left;border-bottom:1px solid var(--border);">Feature
+                                </th>
+                                <th style="padding:8px;text-align:left;border-bottom:1px solid var(--border);">LOOCV
+                                </th>
+                                <th style="padding:8px;text-align:left;border-bottom:1px solid var(--border);">K-Fold
+                                    (K=10)</th>
+                            </tr>
+                            <tr>
+                                <td style="padding:8px;border-bottom:1px solid var(--border);">Training size</td>
+                                <td style="padding:8px;border-bottom:1px solid var(--border);">n−1 (very large)</td>
+                                <td style="padding:8px;border-bottom:1px solid var(--border);">≈ 0.9n</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:8px;border-bottom:1px solid var(--border);">Bias</td>
+                                <td style="padding:8px;border-bottom:1px solid var(--border);">Very low</td>
+                                <td style="padding:8px;border-bottom:1px solid var(--border);">Slightly higher</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:8px;border-bottom:1px solid var(--border);">Variance</td>
+                                <td style="padding:8px;border-bottom:1px solid var(--border);">High (correlated folds)
+                                </td>
+                                <td style="padding:8px;border-bottom:1px solid var(--border);">Lower (better)</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:8px;border-bottom:1px solid var(--border);">Computation</td>
+                                <td style="padding:8px;border-bottom:1px solid var(--border);">n models (slow)</td>
+                                <td style="padding:8px;border-bottom:1px solid var(--border);">K models (fast)</td>
+                            </tr>
+                            <tr>
+                                <td style="padding:8px;">Practical choice</td>
+                                <td style="padding:8px;">Small n</td>
+                                <td style="padding:8px;">K=5 or K=10 preferred</td>
+                            </tr>
+                        </table>
+                        <br><strong>Recommendation:</strong> K=10 fold CV — best bias-variance balance. Computationally
+                        feasible.
+                    </div>
+                </div>
+            </div>
+
+            <div class="q-block">
+                <div class="marks-badge">5 marks</div>
+                <h4>(d) Bootstrap — When Ideal?</h4>
+                <p>Bootstrap ideal situations 5 explain. When should use bootstrap?</p>
+                <button class="reveal-btn" onclick="toggleAnswer(this)">👁 Model Answer බලන්න</button>
+                <div class="model-answer">
+                    <div class="highlight-primary">
+                        <strong>Bootstrap Ideal ෙදී:</strong><br><br>
+                        <strong>1. No closed-form SE:</strong> Median, quantiles, trimmed mean — theoretical formula
+                        unavailable. Bootstrap computational approach provide.<br><br>
+                        <strong>2. Assumption violations:</strong> Non-normal data, heteroscedasticity. Bootstrap
+                        requires only i.i.d. observations.<br><br>
+                        <strong>3. Small samples:</strong> Asymptotic approximations poor. Bootstrap still
+                        reliable.<br><br>
+                        <strong>4. Complex estimators:</strong> AUC, robust regression, ML metrics — exact distributions
+                        derive කළ නොහැකිය. Resample + recalculate.<br><br>
+                        <strong>5. CI without parametric assumptions:</strong> Percentile CI naturally skewness reflect
+                        — symmetric parametric CI than better.<br><br>
+                        <em>Rule: Statistic compute හැකිනම් but variability නොදනිනම් → Bootstrap ideal.</em>
+                    </div>
+                </div>
+            </div>
+
+            <div class="q-block">
+                <div class="marks-badge">5 marks</div>
+                <h4>(e) Bootstrap Confidence Interval — Median</h4>
+                <p>Exponential data ෙදී bootstrap ගෙන median 95% CI compute.</p>
+                <button class="reveal-btn" onclick="toggleAnswer(this)">👁 Model Answer බලන්න</button>
+                <div class="model-answer">
+                    <div class="code-block">
+                        <div class="code-header"><span>R</span>
+                            <div><span class="lang-tag">R</span></div>
+                        </div>
+                        <pre><code>set.seed(<span class="r-number">123</span>)
+x <- <span class="r-func">rexp</span>(<span class="r-number">50</span>, rate = <span class="r-number">0.5</span>)
+B <- <span class="r-number">2000</span>
+n <- <span class="r-func">length</span>(x)
+boot_median <- <span class="r-func">numeric</span>(B)
+
+<span class="r-keyword">for</span> (b <span class="r-keyword">in</span> <span class="r-number">1</span>:B) {
+  xb <- x[<span class="r-func">sample</span>(<span class="r-number">1</span>:n, size=n, replace=<span class="r-keyword">TRUE</span>)]
+  boot_median[b] <- <span class="r-func">median</span>(xb)
+}
+
+ci_median <- <span class="r-func">quantile</span>(boot_median, <span class="r-func">c</span>(<span class="r-number">0.025</span>, <span class="r-number">0.975</span>))
+<span class="r-func">cat</span>(<span class="r-string">"Sample Median:"</span>, <span class="r-func">median</span>(x), <span class="r-string">"\n"</span>)
+<span class="r-func">cat</span>(<span class="r-string">"Bootstrap SE:"</span>, <span class="r-func">sd</span>(boot_median), <span class="r-string">"\n"</span>)
+<span class="r-func">cat</span>(<span class="r-string">"95% CI:"</span>, ci_median)</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="q-block">
+                <div class="marks-badge">5 marks</div>
+                <h4>(f) Bootstrap Hypothesis Test — Median H₀: m = 5</h4>
+                <p>Sample data: c(6.2, 5.1, 4.8, 5.5, 6.0, 4.9, 5.3, 6.1, 5.7, 4.6). H₀: median = 5 test.</p>
+                <button class="reveal-btn" onclick="toggleAnswer(this)">👁 Model Answer බලන්න</button>
+                <div class="model-answer">
+                    <div class="code-block">
+                        <div class="code-header"><span>R</span>
+                            <div><span class="lang-tag">R</span></div>
+                        </div>
+                        <pre><code>set.seed(<span class="r-number">123</span>)
+x <- <span class="r-func">c</span>(<span class="r-number">6.2</span>, <span class="r-number">5.1</span>, <span class="r-number">4.8</span>, <span class="r-number">5.5</span>, <span class="r-number">6.0</span>, <span class="r-number">4.9</span>, <span class="r-number">5.3</span>, <span class="r-number">6.1</span>, <span class="r-number">5.7</span>, <span class="r-number">4.6</span>)
+m0 <- <span class="r-number">5</span>; n <- <span class="r-func">length</span>(x); B <- <span class="r-number">5000</span>
+
+boot_meds <- <span class="r-func">numeric</span>(B)
+<span class="r-keyword">for</span> (b <span class="r-keyword">in</span> <span class="r-number">1</span>:B)
+  boot_meds[b] <- <span class="r-func">median</span>(<span class="r-func">sample</span>(x, n, replace=<span class="r-keyword">TRUE</span>))
+
+<span class="r-comment"># Two-sided p-value</span>
+obs_med <- <span class="r-func">median</span>(x)
+p_val <- <span class="r-func">mean</span>(<span class="r-func">abs</span>(boot_meds - obs_med) >= <span class="r-func">abs</span>(obs_med - m0))
+<span class="r-func">cat</span>(<span class="r-string">"Observed Median:"</span>, obs_med, <span class="r-string">"\n"</span>)
+<span class="r-func">cat</span>(<span class="r-string">"Bootstrap p-value:"</span>, p_val)</code></pre>
+                    </div>
+                    <div class="highlight-primary" style="margin-top:12px;">
+                        <strong>Decision:</strong> p-value &lt; 0.05 → H₀ reject (median ≠ 5 significant). p-value &gt;
+                        0.05 → fail to reject (insufficient evidence against H₀: median = 5).
+                    </div>
+                </div>
+            </div>
+
+            <!-- QUESTION 5 -->
+            <div class="section-banner">
+                <span style="font-size:1.5rem;">Q5</span>
+                <div>
+                    <h3>Bootstrap + Linear Regression (35 marks) — File: Q5-YourRegNumber.Rmd</h3>
+                </div>
+            </div>
+
+            <div class="q-block">
+                <div class="marks-badge">5 marks</div>
+                <h4>(a) Dataset Generate</h4>
+                <p>100 observations: Yᵢ = 3 + 2Xᵢ + εᵢ, Xᵢ ~ Unif(0,10), εᵢ ~ N(0,2²)</p>
+                <button class="reveal-btn" onclick="toggleAnswer(this)">👁 Model Answer</button>
+                <div class="model-answer">
+                    <div class="code-block">
+                        <div class="code-header"><span>R</span>
+                            <div><span class="lang-tag">R</span></div>
+                        </div>
+                        <pre><code>set.seed(<span class="r-number">123</span>)
+n   <- <span class="r-number">100</span>
+X   <- <span class="r-func">runif</span>(n, <span class="r-number">0</span>, <span class="r-number">10</span>)
+eps <- <span class="r-func">rnorm</span>(n, <span class="r-number">0</span>, <span class="r-number">2</span>)   <span class="r-comment"># sd=2 → variance=4</span>
+Y   <- <span class="r-number">3</span> + <span class="r-number">2</span> * X + eps
+df5 <- <span class="r-func">data.frame</span>(X=X, Y=Y)</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="q-block">
+                <div class="marks-badge">3 marks</div>
+                <h4>(b) Scatter Plot</h4>
+                <button class="reveal-btn" onclick="toggleAnswer(this)">👁 Model Answer</button>
+                <div class="model-answer">
+                    <div class="code-block">
+                        <div class="code-header"><span>R</span>
+                            <div><span class="lang-tag">R</span></div>
+                        </div>
+                        <pre><code><span class="r-func">plot</span>(df5$X, df5$Y, pch=<span class="r-number">16</span>, col=<span class="r-string">"steelblue"</span>,
+     main=<span class="r-string">"Scatter Plot: Y vs X"</span>, xlab=<span class="r-string">"X"</span>, ylab=<span class="r-string">"Y"</span>)
+<span class="r-func">abline</span>(<span class="r-func">lm</span>(Y~X, data=df5), col=<span class="r-string">"red"</span>, lwd=<span class="r-number">2</span>)</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="q-block">
+                <div class="marks-badge">4 marks</div>
+                <h4>(c) Fit Linear Regression, Report β̂₀ and β̂₁</h4>
+                <button class="reveal-btn" onclick="toggleAnswer(this)">👁 Model Answer</button>
+                <div class="model-answer">
+                    <div class="code-block">
+                        <div class="code-header"><span>R</span>
+                            <div><span class="lang-tag">R</span></div>
+                        </div>
+                        <pre><code>fit5 <- <span class="r-func">lm</span>(Y ~ X, data = df5)
+<span class="r-func">summary</span>(fit5)
+<span class="r-func">cat</span>(<span class="r-string">"β̂₀ (Intercept):"</span>, <span class="r-func">coef</span>(fit5)[<span class="r-number">1</span>], <span class="r-string">"\n"</span>)
+<span class="r-func">cat</span>(<span class="r-string">"β̂₁ (Slope)    :"</span>, <span class="r-func">coef</span>(fit5)[<span class="r-number">2</span>], <span class="r-string">"\n"</span>)
+<span class="r-comment"># True values: β₀=3, β₁=2. Estimates should be close.</span></code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="q-block">
+                <div class="marks-badge">15 marks</div>
+                <h4>(d) Bootstrap (1000 replications) — SE of β̂₁</h4>
+                <button class="reveal-btn" onclick="toggleAnswer(this)">👁 Model Answer</button>
+                <div class="model-answer">
+                    <div class="code-block">
+                        <div class="code-header"><span>R</span>
+                            <div><span class="lang-tag">R</span></div>
+                        </div>
+                        <pre><code>B <- <span class="r-number">1000</span>
+boot_results <- <span class="r-func">data.frame</span>(b=<span class="r-number">1</span>:B, beta0=<span class="r-func">NA</span>, beta1=<span class="r-func">NA</span>)
+
+<span class="r-keyword">for</span> (b <span class="r-keyword">in</span> <span class="r-number">1</span>:B) {
+  idx  <- <span class="r-func">sample</span>(<span class="r-number">1</span>:n, size=n, replace=<span class="r-keyword">TRUE</span>)
+  samp <- df5[idx, ]
+  bf   <- <span class="r-func">lm</span>(Y ~ X, data=samp)
+  boot_results$beta0[b] <- <span class="r-func">coef</span>(bf)[<span class="r-number">1</span>]
+  boot_results$beta1[b] <- <span class="r-func">coef</span>(bf)[<span class="r-number">2</span>]
+}
+
+<span class="r-func">cat</span>(<span class="r-string">"Bootstrap SE for β̂₁:"</span>, <span class="r-func">sd</span>(boot_results$beta1))
+<span class="r-func">head</span>(boot_results)</code></pre>
+                    </div>
+                    <div class="highlight-success" style="margin-top:12px;">
+                        <strong>Key Points for marks:</strong> (1) dataframe object use, (2) replace=TRUE, (3) 1000
+                        iterations, (4) β₀ AND β₁ both store, (5) sd() ගෙන SE compute.
+                    </div>
+                </div>
+            </div>
+
+            <div class="q-block">
+                <div class="marks-badge">3 marks</div>
+                <h4>(e) Bootstrap Distribution Histogram</h4>
+                <button class="reveal-btn" onclick="toggleAnswer(this)">👁 Model Answer</button>
+                <div class="model-answer">
+                    <div class="code-block">
+                        <div class="code-header"><span>R</span>
+                            <div><span class="lang-tag">R</span></div>
+                        </div>
+                        <pre><code><span class="r-func">hist</span>(boot_results$beta1, breaks=<span class="r-number">30</span>, col=<span class="r-string">"skyblue"</span>,
+     main=<span class="r-string">"Bootstrap Distribution of β̂₁ (Slope)"</span>,
+     xlab=<span class="r-string">"β̂₁"</span>)
+<span class="r-func">abline</span>(v=<span class="r-func">coef</span>(fit5)[<span class="r-number">2</span>], col=<span class="r-string">"blue"</span>, lwd=<span class="r-number">2</span>)
+<span class="r-func">abline</span>(v=<span class="r-func">quantile</span>(boot_results$beta1, <span class="r-func">c</span>(<span class="r-number">0.025</span>,<span class="r-number">0.975</span>)),
+       col=<span class="r-string">"red"</span>, lwd=<span class="r-number">2</span>, lty=<span class="r-number">2</span>)</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="q-block">
+                <div class="marks-badge">5 marks</div>
+                <h4>(f) 95% Percentile Bootstrap CI for β̂₁</h4>
+                <button class="reveal-btn" onclick="toggleAnswer(this)">👁 Model Answer</button>
+                <div class="model-answer">
+                    <div class="code-block">
+                        <div class="code-header"><span>R</span>
+                            <div><span class="lang-tag">R</span></div>
+                        </div>
+                        <pre><code>ci_beta1 <- <span class="r-func">quantile</span>(boot_results$beta1, <span class="r-func">c</span>(<span class="r-number">0.025</span>, <span class="r-number">0.975</span>))
+<span class="r-func">cat</span>(<span class="r-string">"95% Bootstrap CI for β̂₁:\n"</span>)
+<span class="r-func">print</span>(ci_beta1)
+<span class="r-comment"># Expected: CI contains true β₁ = 2</span></code></pre>
+                    </div>
+                    <div class="highlight-success" style="margin-top:12px;">
+                        <strong>Interpretation:</strong> "Bootstrap 95% CI: [lower, upper]. True β₁ = 2 CI ෙදී contain.
+                        Population slope β₁ 95% confidence interval."
+                    </div>
+                </div>
+            </div>
+
+            <!-- FINAL MCQ QUIZ -->
+            <div class="section-banner">
+                <span style="font-size:1.5rem;">🎯</span>
+                <h3>Final Review Quiz – All Topics</h3>
+            </div>
+            <div class="quiz-container" id="final-quiz"></div>
+
+        </main>
+    </div>
+
+    <footer class="site-footer">STA 3401 · Rajarata University · 2025 · Practice makes perfect! 💪</footer>
+    <button class="back-top">↑</button>
+
+    <script src="script.js"></script>
+    <script>
+        // Toggle answer visibility
+        function toggleAnswer(btn) {
+            const box = btn.nextElementSibling;
+            const isShown = box.classList.contains('show');
+            box.classList.toggle('show');
+            btn.textContent = isShown ? '👁 Model Answer බලන්න' : '🙈 Answer සඟවන්න';
+            btn.classList.toggle('shown', !isShown);
+        }
+
+        // ===== EXAM TIMER =====
+        let timerInterval, seconds = 3 * 60 * 60;
+        function updateDisplay() {
+            const h = Math.floor(seconds / 3600);
+            const m = Math.floor((seconds % 3600) / 60);
+            const s = seconds % 60;
+            document.getElementById('timer').textContent =
+                `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+            const el = document.getElementById('timer');
+            el.style.color = seconds < 600 ? '#c62828' : 'var(--accent)';
+        }
+        function startTimer() {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                if (seconds > 0) { seconds--; updateDisplay(); }
+                else { clearInterval(timerInterval); alert('⏰ Time up!'); }
+            }, 1000);
+        }
+        function resetTimer() {
+            clearInterval(timerInterval);
+            seconds = 3 * 60 * 60;
+            updateDisplay();
+        }
+
+        // MCQ Quick Practice
+        const mcqData = [
+            { q: "OLS minimize කරන function?", opts: ["TSS", "RSS", "ESS", "AIC"], ans: 1, exp: "OLS: Residual Sum of Squares RSS = Σ(yᵢ-ŷᵢ)²" },
+            { q: "Ridge penalty term?", opts: ["Σ|βⱼ|", "Σβⱼ²", "Σβⱼ", "max(βⱼ)"], ans: 1, exp: "Ridge L2: λΣβⱼ²" },
+            { q: "Lasso β = 0 ෙදී?", opts: ["Always", "Variable selection", "Never", "When λ=0"], ans: 1, exp: "Lasso L1: Some coefficients exactly zero → variable selection" },
+            { q: "Logistic function output?", opts: ["(-∞,∞)", "[0,1]", "[0,100]", "Integers"], ans: 1, exp: "P = 1/(1+e^(-z)) ∈ [0,1]" },
+            { q: "Bootstrap 'replace=TRUE' mean?", opts: ["No repeat", "Same obs multiple times possible", "Sort data", "New data"], ans: 1, exp: "With replacement: same observation select multiple times possible" },
+        ];
+        const mcqEl = document.getElementById('mcq-container');
+        mcqData.forEach((q, i) => {
+            mcqEl.innerHTML += `
+    <div class="q-block">
+      <strong>MCQ ${i + 1}:</strong> ${q.q}
+      <ul class="mc-options" id="mcq-${i}">
+        ${q.opts.map((o, j) => `<li><label><input type="radio" name="mcq${i}" value="${j}"> ${String.fromCharCode(65 + j)}. ${o}</label></li>`).join('')}
+      </ul>
+      <button class="check-btn" onclick="checkMCQ(${i}, ${q.ans}, '${q.exp}', this)">✓ Check</button>
+      <div id="mcq-fb-${i}" style="margin-top:8px;font-size:0.88rem;"></div>
+    </div>`;
+        });
+
+        function checkMCQ(i, correct, exp, btn) {
+            const selected = document.querySelector(`input[name="mcq${i}"]:checked`);
+            const fb = document.getElementById(`mcq-fb-${i}`);
+            if (!selected) { fb.textContent = 'කරුණාකර option select කරන්න.'; return; }
+            const val = parseInt(selected.value);
+            if (val === correct) {
+                fb.innerHTML = `<span class="correct-answer">✓ නිවැරදිය!</span> ${exp}`;
+            } else {
+                fb.innerHTML = `<span class="wrong-answer">✗ වැරදිය.</span> ${exp}`;
+            }
+            btn.disabled = true;
+        }
+
+        // Final comprehensive quiz
+        new Quiz([
+            { question: "Statistical Learning goal?", options: ["Only clustering", "Prediction + Inference", "Database management", "Visualization only"], correct: 1, explanation: "Prediction (Y predict) + Inference (X-Y relationship)." },
+            { question: "Bias² + Variance + σ² = ?", options: ["Training Error", "Test MSE expected value", "R-squared", "CV Error"], correct: 1, explanation: "Expected Test MSE = Bias² + Variance + Irreducible Error." },
+            { question: "K=5 KNN result?", options: ["5 predictors", "5 data points average for prediction", "5-fold CV", "5% error"], correct: 1, explanation: "KNN k=5: 5 nearest neighbors average → prediction." },
+            { question: "cv.glmnet(X, y, alpha=0) trains?", options: ["Lasso", "Ridge", "Elastic Net", "OLS"], correct: 1, explanation: "alpha=0 → Ridge regression. alpha=1 → Lasso." },
+            { question: "Backward stepwise starts with?", options: ["Empty model", "Full model (all predictors)", "Random subset", "Best 2 predictors"], correct: 1, explanation: "Backward: Full model → Least significant predictor remove → Repeat." },
+            { question: "Bootstrap SE compute method?", options: ["mean(boot_stats)", "sd(boot_stats)", "var(boot_stats)", "max-min"], correct: 1, explanation: "Bootstrap SE = sd() of bootstrap statistics distribution." },
+            { question: "Logistic Regression glm() family?", options: ["gaussian", "binomial('logit')", "poisson", "Gamma"], correct: 1, explanation: "Binary classification: family = binomial('logit')." },
+            { question: "Cubic spline knot ෙදී smooth condition?", options: ["Discontinuous OK", "1st derivative only", "Up to 2nd derivative continuous", "No condition"], correct: 2, explanation: "Cubic spline: function + 1st + 2nd derivative continuous at knots." },
+            { question: "Lasso vs Ridge: variable selection?", options: ["Ridge selects", "Lasso selects (|β| → exact zero)", "Both select", "Neither select"], correct: 1, explanation: "Lasso L1 penalty → exact zero → variable selection. Ridge never exact zero." },
+            { question: "10-fold CV final error?", options: ["Min of 10 MSE", "Max of 10 MSE", "Mean of 10 MSE", "Last fold MSE"], correct: 2, explanation: "CV Error = mean(MSE₁, MSE₂, ..., MSE₁₀)." },
+        ], 'final-quiz');
+    </script>
+</body>
+
+</html>

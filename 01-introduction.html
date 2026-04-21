@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="si">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1. Statistical Learning හැඳිනීම | STA 3401</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Noto+Sans+Sinhala:wght@400;600;700&family=Fira+Code&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="nav-brand">
+            <div class="brand-icon">📊</div>STA 3401
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">🏠 ගෙදර</a></li>
+            <li><a href="01-introduction.html" class="active">හැඳිනීම</a></li>
+            <li><a href="02-linear-regression.html">Linear</a></li>
+            <li><a href="03-nonlinear.html">Nonlinear</a></li>
+            <li><a href="04-regularization.html">Regularization</a></li>
+            <li><a href="05-logistic.html">Logistic</a></li>
+            <li><a href="06-cv-bootstrap.html">CV & Bootstrap</a></li>
+            <li><a href="practice.html">📝 Practice</a></li>
+        </ul>
+        <button class="nav-toggle">☰</button>
+    </nav>
+    <div class="mobile-nav">
+        <a href="index.html">🏠 ගෙදර</a>
+        <a href="01-introduction.html">1. Statistical Learning හැඳිනීම</a>
+        <a href="02-linear-regression.html">2. Linear Regression</a>
+        <a href="03-nonlinear.html">3. Nonlinear Models</a>
+        <a href="04-regularization.html">4. Regularization</a>
+        <a href="05-logistic.html">5. Logistic Regression</a>
+        <a href="06-cv-bootstrap.html">6. CV & Bootstrap</a>
+        <a href="practice.html">📝 Practice Exam</a>
+    </div>
+
+    <div class="page-wrapper">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-heading">Topics</div>
+                <a href="index.html" class="sidebar-link"><span class="link-icon">🏠</span>ගෙදර</a>
+                <a href="01-introduction.html" class="sidebar-link active"><span class="link-icon">🔭</span>1.
+                    හැඳිනීම</a>
+                <a href="02-linear-regression.html" class="sidebar-link"><span class="link-icon">📈</span>2. Linear
+                    Regression</a>
+                <a href="03-nonlinear.html" class="sidebar-link"><span class="link-icon">〰️</span>3. Nonlinear</a>
+                <a href="04-regularization.html" class="sidebar-link"><span class="link-icon">🔧</span>4.
+                    Regularization</a>
+                <a href="05-logistic.html" class="sidebar-link"><span class="link-icon">🎯</span>5. Logistic</a>
+                <a href="06-cv-bootstrap.html" class="sidebar-link"><span class="link-icon">🔁</span>6. CV &
+                    Bootstrap</a>
+                <a href="practice.html" class="sidebar-link"><span class="link-icon">📝</span>Practice Exam</a>
+            </div>
+            <div class="sidebar-section" style="margin-top:16px;">
+                <div class="sidebar-heading">මෙම page</div>
+                <a href="#intro" class="sidebar-link"><span class="link-icon">•</span>Statistical Learning කුමක්ද?</a>
+                <a href="#types" class="sidebar-link"><span class="link-icon">•</span>ඉගෙනීමේ ආකාර</a>
+                <a href="#bias-variance" class="sidebar-link"><span class="link-icon">•</span>Bias-Variance Tradeoff</a>
+                <a href="#r-code" class="sidebar-link"><span class="link-icon">•</span>R Code</a>
+                <a href="#quiz" class="sidebar-link"><span class="link-icon">•</span>Quiz</a>
+            </div>
+        </aside>
+
+        <!-- MAIN -->
+        <main class="main-content">
+            <div class="breadcrumb">
+                <a href="index.html">ගෙදර</a><span class="sep">›</span>
+                <span>Topic 1: Statistical Learning හැඳිනීම</span>
+            </div>
+
+            <div class="hero" style="padding:40px 36px;margin-bottom:32px;">
+                <div class="hero-badge">📖 Topic 1 of 6</div>
+                <h1>Statistical Learning හැඳිනීම</h1>
+                <p>Data සමඟ ගනුදෙනු කිරීමේ විද්‍යාව. Prediction, Inference, සහ Model Complexity.</p>
+            </div>
+
+            <div class="content">
+
+                <!-- SECTION 1 -->
+                <h2 id="intro" data-section="intro">🔭 Statistical Learning යනු කුමක්ද?</h2>
+
+                <div class="def-box">
+                    <div class="def-title">නිර්වචනය</div>
+                    Statistical Learning යනු data අර්ථ ගැනීම සහ predictions කිරීම සඳහා භාවිත කරන mathematical tools සහ
+                    algorithms සමූහයකි. සාම්ප්‍රදායික statistics සහ machine learning දෙකම ඒකාබද්ධ කරයි.
+                </div>
+
+                <p>Statistical Learning හි ප්‍රධාන ඉලක්ක දෙකක් ඇත:</p>
+                <ul>
+                    <li><strong>Prediction (අනාවැකිය):</strong> නව data points සඳහා Y (output) predict කිරීම. උදාහරණ:
+                        ගෙවල් මිළ predict කිරීම.</li>
+                    <li><strong>Inference (අනුමානය):</strong> Predictors සහ Response අතර සම්බන්ධය තේරුම් ගැනීම. X
+                        ශ්‍රිතය Y ට කෙසේ බලපෑමද?</li>
+                </ul>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ලක්ෂණය</th>
+                                <th>සාම්ප්‍රදායික Statistics</th>
+                                <th>Statistical Learning</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>ප්‍රධාන ඉලක්කය</td>
+                                <td>Inference</td>
+                                <td>Prediction</td>
+                            </tr>
+                            <tr>
+                                <td>Model Complexity</td>
+                                <td>Simple, interpretable</td>
+                                <td>Flexible, may be complex</td>
+                            </tr>
+                            <tr>
+                                <td>Data ප්‍රමාණය</td>
+                                <td>Low-dimensional</td>
+                                <td>Often high-dimensional</td>
+                            </tr>
+                            <tr>
+                                <td>Assumptions</td>
+                                <td>Strong (normality, linearity)</td>
+                                <td>Flexible or minimal</td>
+                            </tr>
+                            <tr>
+                                <td>Output</td>
+                                <td>Coefficients, p-values</td>
+                                <td>Predictive accuracy, CV</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- SECTION 2 -->
+                <h2 id="types" data-section="types">🗂️ ඉගෙනීමේ ආකාර</h2>
+
+                <div class="compare-grid">
+                    <div class="compare-card">
+                        <h4>✅ Supervised Learning</h4>
+                        <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:10px;">Response variable (Y)
+                            ඇත</p>
+                        <ul>
+                            <li><strong>Regression:</strong> Continuous Y — mpg predict කිරීම</li>
+                            <li><strong>Classification:</strong> Categorical Y — email spam/not spam</li>
+                            <li>Algorithm: Linear Regression, Logistic Regression, KNN, SVM</li>
+                        </ul>
+                    </div>
+                    <div class="compare-card">
+                        <h4>🔍 Unsupervised Learning</h4>
+                        <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:10px;">Response variable නැත
+                        </p>
+                        <ul>
+                            <li><strong>Clustering:</strong> Data groups discover කිරීම</li>
+                            <li><strong>PCA:</strong> Dimension reduction</li>
+                            <li>Algorithm: K-means, Hierarchical Clustering</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="highlight-primary">
+                    <strong>📝 Exam Tip:</strong> Supervised learning හි goal කුමක්ද? → Y predict කිරීම labeled data
+                    භාවිතයෙන්. Unsupervised → structure discover කිරීම.
+                </div>
+
+                <!-- SECTION 3 -->
+                <h2 id="bias-variance" data-section="bias-variance">⚖️ Bias-Variance Tradeoff</h2>
+
+                <p>Model error = <strong>Bias² + Variance + Irreducible Error</strong></p>
+
+                <div class="formula-box">
+                    E[(Y − f̂(x₀))²] = [Bias(f̂(x₀))]² + Var(f̂(x₀)) + σ²
+                </div>
+
+                <div class="compare-grid">
+                    <div class="compare-card">
+                        <h4 style="color:#c62828;">📉 High Bias (Underfitting)</h4>
+                        <ul>
+                            <li>Model too simple</li>
+                            <li>Training error ↑, Test error ↑</li>
+                            <li>Pattern miss කරයි</li>
+                            <li>Example: 12 degree data fit කිරීමට linear model</li>
+                        </ul>
+                    </div>
+                    <div class="compare-card">
+                        <h4 style="color:#f57c00;">📈 High Variance (Overfitting)</h4>
+                        <ul>
+                            <li>Model too complex</li>
+                            <li>Training error ↓, Test error ↑</li>
+                            <li>Noise fit කරයි</li>
+                            <li>Example: 3 data points fit කිරීමට 10th degree polynomial</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="note-box">
+                    <strong>⚠️ Key Insight:</strong> Model complexity වැඩි කළ විට Bias ↓ නමුත් Variance ↑. Optimal model
+                    = Bias² + Variance minimize කරන point.
+                </div>
+
+                <div class="highlight-success">
+                    <strong>✅ Goal:</strong> Test MSE minimize කරන model select කිරීම. Cross-validation මෙය estimate
+                    කිරීමට help කරයි.
+                </div>
+
+                <!-- SECTION 4 -->
+                <h2 id="r-code" data-section="r-code">💻 R Code Examples</h2>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>R – Supervised Learning (Train/Test Split)</span>
+                        <div style="display:flex;gap:8px;align-items:center;">
+                            <span class="lang-tag">R</span>
+                            <button class="code-copy">Copy</button>
+                        </div>
+                    </div>
+                    <pre><code><span class="r-comment"># ===== SUPERVISED LEARNING EXAMPLE =====</span>
+<span class="r-keyword">library</span>(caret)
+
+<span class="r-comment"># Data load කිරීම</span>
+data(Auto)
+
+<span class="r-comment"># Train/Test split (70/30)</span>
+set.seed(<span class="r-number">42</span>)
+train_idx <- createDataPartition(Auto$mpg, p = <span class="r-number">0.7</span>, list = <span class="r-keyword">FALSE</span>)
+train_data <- Auto[train_idx, ]
+test_data  <- Auto[-train_idx, ]
+
+<span class="r-comment"># Linear Regression model fit</span>
+model <- <span class="r-func">lm</span>(mpg ~ horsepower, data = train_data)
+
+<span class="r-comment"># Predictions</span>
+pred <- <span class="r-func">predict</span>(model, test_data)
+
+<span class="r-comment"># RMSE calculate</span>
+rmse <- <span class="r-func">sqrt</span>(<span class="r-func">mean</span>((test_data$mpg - pred)^<span class="r-number">2</span>))
+<span class="r-func">cat</span>(<span class="r-string">"RMSE:"</span>, rmse)</code></pre>
+                </div>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span>R – Unsupervised Learning (K-means)</span>
+                        <div style="display:flex;gap:8px;align-items:center;">
+                            <span class="lang-tag">R</span>
+                            <button class="code-copy">Copy</button>
+                        </div>
+                    </div>
+                    <pre><code><span class="r-comment"># ===== UNSUPERVISED LEARNING (K-means) =====</span>
+data(Auto)
+
+<span class="r-comment"># Cluster mpg සහ horsepower සඳහා</span>
+set.seed(<span class="r-number">42</span>)
+km <- <span class="r-func">kmeans</span>(Auto[, c(<span class="r-string">"mpg"</span>, <span class="r-string">"horsepower"</span>)], centers = <span class="r-number">3</span>)
+
+<span class="r-func">plot</span>(Auto$horsepower, Auto$mpg,
+     col = km$cluster, pch = <span class="r-number">16</span>,
+     main = <span class="r-string">"K-means Clustering"</span>)
+<span class="r-func">points</span>(km$centers, col = <span class="r-number">1</span>:<span class="r-number">3</span>, pch = <span class="r-number">8</span>, cex = <span class="r-number">2</span>)</code></pre>
+                </div>
+
+                <!-- QUIZ -->
+                <h2 id="quiz" data-section="quiz">🧠 Practice Quiz</h2>
+                <div class="quiz-container" id="quiz1"></div>
+
+            </div><!-- end content -->
+
+            <!-- PAGE NAV -->
+            <div class="page-nav">
+                <div></div>
+                <a href="02-linear-regression.html" class="page-nav-card next">
+                    <span class="nav-dir">ඊළඟ Topic →</span>
+                    <span class="nav-title">Linear Regression</span>
+                </a>
+            </div>
+
+        </main>
+    </div>
+
+    <footer class="site-footer">STA 3401 Statistical Learning · Rajarata University of Sri Lanka · 2025</footer>
+    <button class="back-top">↑</button>
+
+    <script src="script.js"></script>
+    <script>
+        new Quiz([
+            {
+                question: "Statistical Learning හි ප්‍රධාන ඉලක්ක දෙක මොනවාද?",
+                options: ["Clustering සහ Classification", "Prediction සහ Inference", "Training සහ Testing", "Bias සහ Variance"],
+                correct: 1,
+                explanation: "Statistical Learning හි ප්‍රධාන ඉලක්ක දෙකනම් Prediction (Y predict කිරීම) සහ Inference (X-Y සම්බන්ධය තේරුම් ගැනීම)."
+            },
+            {
+                question: "Supervised Learning සහ Unsupervised Learning හි ප්‍රධාන වෙනස කුමක්ද?",
+                options: ["Data ප්‍රමාණය", "Labeled data (Y) ඇතිද නැද්ද", "Algorithm complexity", "R package"],
+                correct: 1,
+                explanation: "Supervised Learning හි labeled response variable (Y) ඇත. Unsupervised Learning හි Y නැත — structure discover කිරීමයි ඉලක්කය."
+            },
+            {
+                question: "Bias-Variance Tradeoff හි Test MSE = ?",
+                options: ["Bias + Variance", "Bias² + Variance + σ²", "Bias × Variance", "Variance - Bias"],
+                correct: 1,
+                explanation: "Expected Test MSE = Bias² + Variance + Irreducible Error (σ²). Bias² + Variance minimize කිරීමයි goal."
+            },
+            {
+                question: "Model complexity වැඩි කළ විට කුමක් සිදු වේද?",
+                options: ["Bias ↑, Variance ↑", "Bias ↓, Variance ↑", "Bias ↑, Variance ↓", "Bias ↓, Variance ↓"],
+                correct: 1,
+                explanation: "Complex model → Bias ↓ (training data හොඳින් fit) නමුත් Variance ↑ (new data poor). මෙය overfitting."
+            },
+            {
+                question: "K-means clustering කුමන type learning ද?",
+                options: ["Supervised", "Unsupervised", "Semi-supervised", "Reinforcement"],
+                correct: 1,
+                explanation: "K-means clustering යනු Unsupervised Learning. Response variable නැතිව data patterns discover කරයි."
+            },
+            {
+                question: "High Bias model ගැන නිවැරදි statement කුමක්ද?",
+                options: ["Training error ↓, Test error ↑", "Overfitting", "Training error ↑, Test error ↑ (Underfitting)", "High variance"],
+                correct: 2,
+                explanation: "High Bias = Underfitting. Model too simple — training error ↑ සහ test error ↑. Pattern miss කරයි."
+            },
+            {
+                question: "Logistic Regression classifies email spam/not spam. මෙය කුමන learning ද?",
+                options: ["Unsupervised – Clustering", "Supervised – Classification", "Unsupervised – PCA", "Supervised – Regression"],
+                correct: 1,
+                explanation: "Spam/Not Spam = categorical outcome + labeled data → Supervised Classification."
+            },
+            {
+                question: "Irreducible error ගැන නිවැරදි statement?",
+                options: ["Better model ගෙන eliminate කළ හැකිය", "Noise — eliminate කළ නොහැකිය", "Bias² ට සමාන", "Variance ට සමාන"],
+                correct: 1,
+                explanation: "Irreducible error (σ²) data හි inherent noise. කිසිදු model ගෙනත් eliminate කළ නොහැකිය."
+            }
+        ], 'quiz1');
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="si">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5. Logistic Regression | STA 3401</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Noto+Sans+Sinhala:wght@400;600;700&family=Fira+Code&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <div class="brand-icon">📊</div>STA 3401
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">🏠</a></li>
+            <li><a href="01-introduction.html">හැඳිනීම</a></li>
+            <li><a href="02-linear-regression.html">Linear</a></li>
+            <li><a href="03-nonlinear.html">Nonlinear</a></li>
+            <li><a href="04-regularization.html">Regularization</a></li>
+            <li><a href="05-logistic.html" class="active">Logistic</a></li>
+            <li><a href="06-cv-bootstrap.html">CV & Bootstrap</a></li>
+            <li><a href="practice.html">📝 Practice</a></li>
+        </ul>
+        <button class="nav-toggle">☰</button>
+    </nav>
+    <div class="mobile-nav">
+        <a href="index.html">🏠 ගෙදර</a>
+        <a href="01-introduction.html">1. Introduction</a>
+        <a href="02-linear-regression.html">2. Linear Regression</a>
+        <a href="03-nonlinear.html">3. Nonlinear Models</a>
+        <a href="04-regularization.html">4. Regularization</a>
+        <a href="05-logistic.html">5. Logistic Regression</a>
+        <a href="06-cv-bootstrap.html">6. CV & Bootstrap</a>
+        <a href="practice.html">📝 Practice Exam</a>
+    </div>
+
+    <div class="page-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-heading">Topics</div>
+                <a href="index.html" class="sidebar-link"><span class="link-icon">🏠</span>ගෙදර</a>
+                <a href="01-introduction.html" class="sidebar-link"><span class="link-icon">🔭</span>1. හැඳිනීම</a>
+                <a href="02-linear-regression.html" class="sidebar-link"><span class="link-icon">📈</span>2. Linear
+                    Regression</a>
+                <a href="03-nonlinear.html" class="sidebar-link"><span class="link-icon">〰️</span>3. Nonlinear</a>
+                <a href="04-regularization.html" class="sidebar-link"><span class="link-icon">🔧</span>4.
+                    Regularization</a>
+                <a href="05-logistic.html" class="sidebar-link active"><span class="link-icon">🎯</span>5. Logistic</a>
+                <a href="06-cv-bootstrap.html" class="sidebar-link"><span class="link-icon">🔁</span>6. CV &
+                    Bootstrap</a>
+                <a href="practice.html" class="sidebar-link"><span class="link-icon">📝</span>Practice Exam</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="breadcrumb">
+                <a href="index.html">ගෙදර</a><span class="sep">›</span><span>Topic 5: Logistic Regression</span>
+            </div>
+
+            <div class="hero"
+                style="padding:40px 36px;margin-bottom:32px;background:linear-gradient(135deg,#b71c1c,#c62828,#d32f2f);">
+                <div class="hero-badge">📖 Topic 5 of 6</div>
+                <h1>Logistic Regression</h1>
+                <p>Binary Classification — probability predict කිරීම. Sigmoid function, Odds, Log-Odds, MLE.</p>
+            </div>
+
+            <div class="content">
+
+                <h2 id="why" data-section="why">❓ Linear Regression Classification ට ඇයි නොහොඳ?</h2>
+                <ul>
+                    <li>Predictions [0,1] range outside → 1.3, -0.2 possible → Probability invalid</li>
+                    <li>Heteroscedasticity (non-constant error variance)</li>
+                    <li>Poor interpretability of predicted values</li>
+                </ul>
+                <div class="highlight-warning">
+                    <strong>Goal:</strong> P(Y = 1 | X) ∈ [0, 1] predict කිරීම. Logistic function guarantees this.
+                </div>
+
+                <h2 id="logistic" data-section="logistic">📊 Logistic Function (Sigmoid)</h2>
+                <div class="formula-box">
+                    P(Y=1 | X) = 1 / (1 + e^(−(β₀ + β₁X)))<br><br>
+                    <small style="font-family:sans-serif;color:#555;font-size:0.85rem;">Real values → Maps to [0, 1].
+                        S-shaped curve.</small>
+                </div>
+
+                <h2 id="odds" data-section="odds">🎲 Odds සහ Log-Odds (Logit)</h2>
+
+                <div class="compare-grid">
+                    <div class="compare-card">
+                        <h4>Odds</h4>
+                        <div class="formula-box" style="font-size:0.85rem;padding:12px;">Odds = P(Y=1) / (1 − P(Y=1))
+                        </div>
+                        <ul>
+                            <li>Odds = 3 → "Success 3x likely"</li>
+                            <li>Range: [0, ∞)</li>
+                        </ul>
+                    </div>
+                    <div class="compare-card">
+                        <h4>Log-Odds (Logit)</h4>
+                        <div class="formula-box" style="font-size:0.85rem;padding:12px;">log(p/(1−p)) = β₀ + β₁X₁ + ···
+                            + βₚXₚ</div>
+                        <ul>
+                            <li>Linear in X — estimation easy</li>
+                            <li>Range: (−∞, +∞)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h2 id="interpret" data-section="interpret">🔢 Coefficients Interpret</h2>
+                <ul>
+                    <li><strong>βⱼ:</strong> Xⱼ 1 unit increase ෙදී log-odds change (other constant)</li>
+                    <li><strong>exp(βⱼ) = Odds Ratio:</strong> Xⱼ 1 unit increase ෙදී odds multiplicative change</li>
+                    <li>exp(βⱼ) > 1 → Odds increase, P(Y=1) ↑</li>
+                    <li>exp(βⱼ) < 1 → Odds decrease, P(Y=1) ↓</li>
+                </ul>
+
+                <div class="def-box">
+                    <div class="def-title">Interpretation Example</div>
+                    β₁ = 0.5 (Age predictor) → exp(0.5) = 1.65. "1 year age increase ෙදී disease odds 65% increase."
+                </div>
+
+                <h2 id="mle" data-section="mle">📐 Maximum Likelihood Estimation (MLE)</h2>
+                <p>Logistic Regression parameters OLS ගෙන estimate <strong>නොකරයි</strong>. MLE use කරයි.</p>
+                <div class="formula-box">L(β) = Π[π(xᵢ)]^yᵢ × [1 − π(xᵢ)]^(1−yᵢ)</div>
+                <p>β values ගෙන observed data probability maximize. Iterative numerical methods (Newton-Raphson).</p>
+
+                <h2 id="multiple" data-section="multiple">📊 Multiple Logistic Regression</h2>
+                <div class="formula-box">log(p(X)/(1−p(X))) = β₀ + β₁X₁ + β₂X₂ + ··· + βₚXₚ</div>
+                <div class="formula-box" style="margin-top:8px;">p(X) = e^(β₀+β₁X₁+···+βₚXₚ) / (1 +
+                    e^(β₀+β₁X₁+···+βₚXₚ))</div>
+
+                <h2 id="rcode" data-section="rcode">💻 R Code – Logistic Regression</h2>
+
+                <div class="code-block">
+                    <div class="code-header"><span>R – Binary Classification</span>
+                        <div style="display:flex;gap:8px;"><span class="lang-tag">R</span><button
+                                class="code-copy">Copy</button></div>
+                    </div>
+                    <pre><code><span class="r-comment"># Logistic Regression - disease predict (0/1)</span>
+fit_logit <- <span class="r-func">glm</span>(disease ~ age + cholesterol,
+                  data = df,
+                  family = <span class="r-func">binomial</span>(<span class="r-string">"logit"</span>))
+<span class="r-func">summary</span>(fit_logit)
+
+<span class="r-comment"># Odds Ratios</span>
+<span class="r-func">exp</span>(<span class="r-func">coef</span>(fit_logit))
+
+<span class="r-comment"># Predictions (probability)</span>
+probs <- <span class="r-func">predict</span>(fit_logit, newdata = test, type = <span class="r-string">"response"</span>)
+
+<span class="r-comment"># Classification (threshold 0.5)</span>
+preds <- <span class="r-func">ifelse</span>(probs > <span class="r-number">0.5</span>, <span class="r-number">1</span>, <span class="r-number">0</span>)
+
+<span class="r-comment"># Confusion matrix</span>
+<span class="r-func">table</span>(Predicted = preds, Actual = test$disease)
+
+<span class="r-comment"># Accuracy</span>
+accuracy <- <span class="r-func">mean</span>(preds == test$disease)
+<span class="r-func">cat</span>(<span class="r-string">"Accuracy:"</span>, accuracy)</code></pre>
+                </div>
+
+                <h2 id="quiz5">🧠 Practice Quiz</h2>
+                <div class="quiz-container" id="quiz5"></div>
+            </div>
+
+            <div class="page-nav">
+                <a href="04-regularization.html" class="page-nav-card"><span class="nav-dir">← පෙර</span><span
+                        class="nav-title">Regularization</span></a>
+                <a href="06-cv-bootstrap.html" class="page-nav-card next"><span class="nav-dir">ඊළඟ →</span><span
+                        class="nav-title">CV & Bootstrap</span></a>
+            </div>
+        </main>
+    </div>
+
+    <footer class="site-footer">STA 3401 · Rajarata University of Sri Lanka · 2025</footer>
+    <button class="back-top">↑</button>
+    <script src="script.js"></script>
+    <script>
+        new Quiz([
+            {
+                question: "Logistic function output range?",
+                options: ["(-∞, +∞)", "[0, 1]", "[0, 100]", "(-1, 1)"],
+                correct: 1,
+                explanation: "Logistic (sigmoid) function: P = 1/(1+e^(-z)) ∈ [0,1]. Valid probability range."
+            },
+            {
+                question: "Linear Regression classification නොකරන ඇයි?",
+                options: ["Too slow", "Predictions [0,1] range outside possible", "Cannot handle multiple predictors", "OLS not available"],
+                correct: 1,
+                explanation: "Linear regression: predictions could be > 1 or < 0 — invalid probabilities. Logistic function constrains to [0,1]."
+            },
+            {
+                question: "Logistic Regression β₁ = 0.3 (age predictor). Odds Ratio?",
+                options: ["0.3", "exp(0.3) ≈ 1.35", "0.3²", "1/0.3"],
+                correct: 1,
+                explanation: "Odds Ratio = exp(β) = exp(0.3) ≈ 1.35. Age 1 year increase → odds 35% increase."
+            },
+            {
+                question: "Logistic Regression parameters estimate method?",
+                options: ["OLS (Ordinary Least Squares)", "Maximum Likelihood Estimation (MLE)", "Ridge Penalty", "Bootstrap"],
+                correct: 1,
+                explanation: "Logistic Regression: OLS ගෙන estimate නොකරයි. MLE (Maximum Likelihood Estimation) use."
+            },
+            {
+                question: "Log-odds (Logit) = log(p/(1-p)) range?",
+                options: ["[0, 1]", "[0, ∞)", "(-∞, +∞)", "[-1, 1]"],
+                correct: 2,
+                explanation: "Log-odds range: (-∞, +∞). මෙය X සමඟ linear relationship allow කරයි."
+            },
+            {
+                question: "R code: glm(y ~ x, family = binomial('logit')). family argument ඇයි?",
+                options: ["Normal distribution", "Binary outcome logistic model specify", "Poisson regression", "Ridge penalty"],
+                correct: 1,
+                explanation: "family = binomial('logit') → logistic regression specify කරයි. Binary outcome (0/1) model."
+            }
+        ], 'quiz5');
+    </script>
+</body>
+
+</html>
